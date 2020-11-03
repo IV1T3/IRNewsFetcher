@@ -30,6 +30,13 @@ if __name__ == "__main__":
         help="Fetches new press releases from Apple Inc.",
     )
     my_parser.add_argument(
+        "--NVDA",
+        action="store_true",
+        default=0,
+        dest="nvda",
+        help="Fetches new press releases from Nvidia Corporation",
+    )
+    my_parser.add_argument(
         "--TSLA",
         action="store_true",
         default=0,
@@ -41,15 +48,20 @@ if __name__ == "__main__":
 
     all_structured_press_releases = []
 
-    if args.tsla or args.all:
-        tesla = Company("Tesla")
-        tesla_struct = tesla.get_structured_press_releases()
-        all_structured_press_releases = [*all_structured_press_releases, *tesla_struct]
-
     if args.aapl or args.all:
         apple = Company("Apple")
         apple_struct = apple.get_structured_press_releases()
         all_structured_press_releases = [*all_structured_press_releases, *apple_struct]
+
+    if args.nvda or args.all:
+        nvidia = Company("Nvidia")
+        nvidia_struct = nvidia.get_structured_press_releases()
+        all_structured_press_releases = [*all_structured_press_releases, *nvidia_struct]
+
+    if args.tsla or args.all:
+        tesla = Company("Tesla")
+        tesla_struct = tesla.get_structured_press_releases()
+        all_structured_press_releases = [*all_structured_press_releases, *tesla_struct]
 
     all_structured_press_releases.sort(key=lambda x: x[1])
 

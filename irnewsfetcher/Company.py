@@ -21,7 +21,7 @@ tesla_press_release_date = [
 ]
 
 # AAPL information
-apple_ir_url_main = "https://www.apple.com"
+apple_url_main = "https://www.apple.com"
 apple_url_press = "https://www.apple.com/newsroom"
 apple_main_id = "main"
 apple_press_releases = ["li", "class", "tile-item"]
@@ -32,6 +32,19 @@ apple_press_release_date = [
     "class",
     "tile__timestamp icon-hide icon icon-before icon-clock",
 ]
+
+# NVDA information
+nvidia_url_main = "https://www.nvidia.com"
+nvidia_url_press = "https://nvidianews.nvidia.com/news"
+nvidia_main_id = "page-content"
+nvidia_press_releases = ["article", "class", "index-item"]
+nvidia_press_releases_clean = [
+    "div",
+    "class",
+    "index-item-text-description",
+]
+nvidia_press_release_title = ["h3", "class", "index-item-text-title"]
+nvidia_press_release_date = ["span", "class", "index-item-text-info-date"]
 
 
 class Company:
@@ -52,6 +65,9 @@ class Company:
         elif self.name == "Apple":
             url_press = apple_url_press
             selected_element_id = apple_main_id
+        elif self.name == "Nvidia":
+            url_press = nvidia_url_press
+            selected_element_id = nvidia_main_id
         page = requests.get(url_press)
         soup = BeautifulSoup(page.content, "html.parser")
         results = soup.find(id=selected_element_id)
@@ -69,6 +85,10 @@ class Company:
             html_tag = apple_press_releases[0]
             html_attr = apple_press_releases[1]
             html_attr_val = apple_press_releases[2]
+        elif self.name == "Nvidia":
+            html_tag = nvidia_press_releases[0]
+            html_attr = nvidia_press_releases[1]
+            html_attr_val = nvidia_press_releases[2]
 
         press_releases = page_content.find_all(html_tag, {html_attr: html_attr_val})
 
@@ -87,6 +107,11 @@ class Company:
                 html_attr = tesla_press_releases_clean[1]
                 html_attr_val = tesla_press_releases_clean[2]
 
+            if self.name == "Nvidia":
+                html_tag = nvidia_press_releases_clean[0]
+                html_attr = nvidia_press_releases_clean[1]
+                html_attr_val = nvidia_press_releases_clean[2]
+
             if self.name == "Apple":
                 parse_clean = False
 
@@ -98,6 +123,8 @@ class Company:
 
             if self.name == "Tesla":
                 clean_press_release = clean_press_release.find_all("div")[2].contents[0]
+            elif self.name == "Nvidia":
+                clean_press_release = clean_press_release.contents[0]
 
             # Post-Cleaning
             clean_press_releases.append(clean_press_release)
@@ -114,19 +141,27 @@ class Company:
                 html_attr = tesla_press_release_title[1]
                 html_attr_val = tesla_press_release_title[2]
                 html_tag_two = tesla_press_release_title[3]
-
-            if self.name == "Apple":
+            elif self.name == "Apple":
                 html_tag = apple_press_release_title[0]
                 html_attr = apple_press_release_title[1]
                 html_attr_val = apple_press_release_title[2]
+            elif self.name == "Nvidia":
+                html_tag = nvidia_press_release_title[0]
+                html_attr = nvidia_press_release_title[1]
+                html_attr_val = nvidia_press_release_title[2]
 
             # Parsing
             title = press_release.find(html_tag, {html_attr: html_attr_val})
 
             if self.name == "Tesla":
                 title = title.find(html_tag_two)
+            elif self.name == "Nvidia":
+                title = title.find("a")
 
             title = title.contents[0]
+
+            while title[0] == "\n" or title[0] == " ":
+                title = title[1:]
 
             # Post-Parsing
             titles.append(title)
@@ -134,6 +169,15 @@ class Company:
         return titles
 
     def parse_dates(self) -> list:
+        days = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ]
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
             if self.name == "Tesla":
@@ -145,6 +189,10 @@ class Company:
                 html_tag = apple_press_release_date[0]
                 html_attr = apple_press_release_date[1]
                 html_attr_val = apple_press_release_date[2]
+            elif self.name == "Nvidia":
+                html_tag = nvidia_press_release_date[0]
+                html_attr = nvidia_press_release_date[1]
+                html_attr_val = nvidia_press_release_date[2]
 
             date = press_release.find(html_tag, {html_attr: html_attr_val})
 
@@ -153,7 +201,9 @@ class Company:
 
             date = date.contents[0]
 
-            if date[3] == " ":
+            if date.split()[0][:-1] in days:
+                element = datetime.datetime.strptime(date, "%A, %B %d, %Y")
+            elif date[3] == " ":
                 element = datetime.datetime.strptime(date, "%b %d, %Y")
             else:
                 element = datetime.datetime.strptime(date, "%B %d, %Y")
@@ -172,7 +222,7 @@ class Company:
                 if self.name == "Tesla":
                     link = tesla_ir_url_main + link
                 elif self.name == "Apple":
-                    link = apple_ir_url_main + link
+                    link = apple_url_main + link
             links.append(link)
         return links
 
