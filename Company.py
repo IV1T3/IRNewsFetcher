@@ -22,6 +22,7 @@ class Company:
         self.press_releases = self.parse_all_press_releases()
         self.titles = self.parse_titles()
         self.dates = self.parse_dates()
+        self.links = self.parse_links()
 
     def fetch_page_content(self) -> BeautifulSoup:
         url_press = ""
@@ -46,7 +47,7 @@ class Company:
 
         return press_releases
 
-    def parse_titles(self):
+    def parse_titles(self) -> list:
         titles = []
         for press_release in self.press_releases:
             if self.name == "Tesla":
@@ -64,7 +65,7 @@ class Company:
 
         return titles
 
-    def parse_dates(self):
+    def parse_dates(self) -> list:
         dates = []
         for press_release in self.press_releases:
             if self.name == "Tesla":
@@ -80,8 +81,19 @@ class Company:
             dates.append(date)
         return dates
 
+    def parse_links(self) -> list:
+        links = []
+        for press_release in self.press_releases:
+            link = press_release.find("a")["href"]
+            if link[0] != "h":
+                if self.name == "Tesla":
+                    link = tesla_url_main + link
+            links.append(link)
+        return links
+
     def display_news(self) -> None:
         for i in range(len(self.press_releases)):
             print(self.dates[i], "-", self.titles[i])
             print(self.press_releases[i])
+            print(self.links[i])
             print("-----", end="\n" * 2)
