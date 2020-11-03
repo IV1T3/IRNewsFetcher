@@ -2,49 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import datetime
 
-# TSLA information
-tesla_ir_url_main = "https://ir.tesla.com"
-tesla_url_press = "https://ir.tesla.com/press"
-tesla_main_id = "main-content"
-tesla_press_releases = ["section", "class", "press-release-teaser"]
-tesla_press_releases_clean = [
-    "div",
-    "class",
-    "press-release-teaser__body tds-text--body",
-]
-tesla_press_release_title = ["h4", "class", "press-release-teaser__title", "a"]
-tesla_press_release_date = [
-    "div",
-    "class",
-    "press-release-teaser__date tds-text--caption tds-text_color--35",
-    "time",
-]
-
-# AAPL information
-apple_url_main = "https://www.apple.com"
-apple_url_press = "https://www.apple.com/newsroom"
-apple_main_id = "main"
-apple_press_releases = ["li", "class", "tile-item"]
-apple_press_releases_clean = []
-apple_press_release_title = ["div", "class", "tile__headline"]
-apple_press_release_date = [
-    "div",
-    "class",
-    "tile__timestamp icon-hide icon icon-before icon-clock",
-]
-
-# NVDA information
-nvidia_url_main = "https://www.nvidia.com"
-nvidia_url_press = "https://nvidianews.nvidia.com/news"
-nvidia_main_id = "page-content"
-nvidia_press_releases = ["article", "class", "index-item"]
-nvidia_press_releases_clean = [
-    "div",
-    "class",
-    "index-item-text-description",
-]
-nvidia_press_release_title = ["h3", "class", "index-item-text-title"]
-nvidia_press_release_date = ["span", "class", "index-item-text-info-date"]
+import pagedata
 
 
 class Company:
@@ -60,14 +18,14 @@ class Company:
     def fetch_page_content(self) -> BeautifulSoup:
         url_press = ""
         if self.name == "Tesla":
-            url_press = tesla_url_press
-            selected_element_id = tesla_main_id
+            url_press = pagedata.tesla_url_press
+            selected_element_id = pagedata.tesla_main_id
         elif self.name == "Apple":
-            url_press = apple_url_press
-            selected_element_id = apple_main_id
+            url_press = pagedata.apple_url_press
+            selected_element_id = pagedata.apple_main_id
         elif self.name == "Nvidia":
-            url_press = nvidia_url_press
-            selected_element_id = nvidia_main_id
+            url_press = pagedata.nvidia_url_press
+            selected_element_id = pagedata.nvidia_main_id
         page = requests.get(url_press)
         soup = BeautifulSoup(page.content, "html.parser")
         results = soup.find(id=selected_element_id)
@@ -78,19 +36,21 @@ class Company:
         page_content = self.page_content
 
         if self.name == "Tesla":
-            html_tag = tesla_press_releases[0]
-            html_attr = tesla_press_releases[1]
-            html_attr_val = tesla_press_releases[2]
+            pagedata_tag = pagedata.tesla_press_releases[0]
+            pagedata_attr = pagedata.tesla_press_releases[1]
+            pagedata_attr_val = pagedata.tesla_press_releases[2]
         elif self.name == "Apple":
-            html_tag = apple_press_releases[0]
-            html_attr = apple_press_releases[1]
-            html_attr_val = apple_press_releases[2]
+            pagedata_tag = pagedata.apple_press_releases[0]
+            pagedata_attr = pagedata.apple_press_releases[1]
+            pagedata_attr_val = pagedata.apple_press_releases[2]
         elif self.name == "Nvidia":
-            html_tag = nvidia_press_releases[0]
-            html_attr = nvidia_press_releases[1]
-            html_attr_val = nvidia_press_releases[2]
+            pagedata_tag = pagedata.nvidia_press_releases[0]
+            pagedata_attr = pagedata.nvidia_press_releases[1]
+            pagedata_attr_val = pagedata.nvidia_press_releases[2]
 
-        press_releases = page_content.find_all(html_tag, {html_attr: html_attr_val})
+        press_releases = page_content.find_all(
+            pagedata_tag, {pagedata_attr: pagedata_attr_val}
+        )
 
         return press_releases
 
@@ -103,14 +63,14 @@ class Company:
 
             # Pre-Cleaning
             if self.name == "Tesla":
-                html_tag = tesla_press_releases_clean[0]
-                html_attr = tesla_press_releases_clean[1]
-                html_attr_val = tesla_press_releases_clean[2]
+                pagedata_tag = pagedata.tesla_press_releases_clean[0]
+                pagedata_attr = pagedata.tesla_press_releases_clean[1]
+                pagedata_attr_val = pagedata.tesla_press_releases_clean[2]
 
             if self.name == "Nvidia":
-                html_tag = nvidia_press_releases_clean[0]
-                html_attr = nvidia_press_releases_clean[1]
-                html_attr_val = nvidia_press_releases_clean[2]
+                pagedata_tag = pagedata.nvidia_press_releases_clean[0]
+                pagedata_attr = pagedata.nvidia_press_releases_clean[1]
+                pagedata_attr_val = pagedata.nvidia_press_releases_clean[2]
 
             if self.name == "Apple":
                 parse_clean = False
@@ -118,7 +78,7 @@ class Company:
             # Cleaning
             if parse_clean:
                 clean_press_release = full_press_release.find(
-                    html_tag, {html_attr: html_attr_val}
+                    pagedata_tag, {pagedata_attr: pagedata_attr_val}
                 )
 
             if self.name == "Tesla":
@@ -137,24 +97,24 @@ class Company:
 
             # Pre-Parsing
             if self.name == "Tesla":
-                html_tag = tesla_press_release_title[0]
-                html_attr = tesla_press_release_title[1]
-                html_attr_val = tesla_press_release_title[2]
-                html_tag_two = tesla_press_release_title[3]
+                pagedata_tag = pagedata.tesla_press_release_title[0]
+                pagedata_attr = pagedata.tesla_press_release_title[1]
+                pagedata_attr_val = pagedata.tesla_press_release_title[2]
+                pagedata_tag_two = pagedata.tesla_press_release_title[3]
             elif self.name == "Apple":
-                html_tag = apple_press_release_title[0]
-                html_attr = apple_press_release_title[1]
-                html_attr_val = apple_press_release_title[2]
+                pagedata_tag = pagedata.apple_press_release_title[0]
+                pagedata_attr = pagedata.apple_press_release_title[1]
+                pagedata_attr_val = pagedata.apple_press_release_title[2]
             elif self.name == "Nvidia":
-                html_tag = nvidia_press_release_title[0]
-                html_attr = nvidia_press_release_title[1]
-                html_attr_val = nvidia_press_release_title[2]
+                pagedata_tag = pagedata.nvidia_press_release_title[0]
+                pagedata_attr = pagedata.nvidia_press_release_title[1]
+                pagedata_attr_val = pagedata.nvidia_press_release_title[2]
 
             # Parsing
-            title = press_release.find(html_tag, {html_attr: html_attr_val})
+            title = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
 
             if self.name == "Tesla":
-                title = title.find(html_tag_two)
+                title = title.find(pagedata_tag_two)
             elif self.name == "Nvidia":
                 title = title.find("a")
 
@@ -181,23 +141,23 @@ class Company:
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
             if self.name == "Tesla":
-                html_tag = tesla_press_release_date[0]
-                html_attr = tesla_press_release_date[1]
-                html_attr_val = tesla_press_release_date[2]
-                html_tag_two = tesla_press_release_date[3]
+                pagedata_tag = pagedata.tesla_press_release_date[0]
+                pagedata_attr = pagedata.tesla_press_release_date[1]
+                pagedata_attr_val = pagedata.tesla_press_release_date[2]
+                pagedata_tag_two = pagedata.tesla_press_release_date[3]
             elif self.name == "Apple":
-                html_tag = apple_press_release_date[0]
-                html_attr = apple_press_release_date[1]
-                html_attr_val = apple_press_release_date[2]
+                pagedata_tag = pagedata.apple_press_release_date[0]
+                pagedata_attr = pagedata.apple_press_release_date[1]
+                pagedata_attr_val = pagedata.apple_press_release_date[2]
             elif self.name == "Nvidia":
-                html_tag = nvidia_press_release_date[0]
-                html_attr = nvidia_press_release_date[1]
-                html_attr_val = nvidia_press_release_date[2]
+                pagedata_tag = pagedata.nvidia_press_release_date[0]
+                pagedata_attr = pagedata.nvidia_press_release_date[1]
+                pagedata_attr_val = pagedata.nvidia_press_release_date[2]
 
-            date = press_release.find(html_tag, {html_attr: html_attr_val})
+            date = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
 
             if self.name == "Tesla":
-                date = date.find(html_tag_two)
+                date = date.find(pagedata_tag_two)
 
             date = date.contents[0]
 
@@ -220,9 +180,9 @@ class Company:
             link = press_release.find("a")["href"]
             if link[0] != "h":
                 if self.name == "Tesla":
-                    link = tesla_ir_url_main + link
+                    link = pagedata.tesla_ir_url_main + link
                 elif self.name == "Apple":
-                    link = apple_url_main + link
+                    link = pagedata.apple_url_main + link
             links.append(link)
         return links
 
