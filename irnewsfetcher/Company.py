@@ -169,7 +169,11 @@ class Company:
                 element = datetime.datetime.strptime(date, "%B %d, %Y")
             timestamp = datetime.datetime.timestamp(element)
 
-            dates.append(date)
+            new_date = datetime.datetime.fromtimestamp(timestamp).strftime(
+                "%A, %B %d, %Y"
+            )
+
+            dates.append(new_date)
             timestamps.append(timestamp)
 
         return dates, timestamps
