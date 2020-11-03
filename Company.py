@@ -6,6 +6,11 @@ tesla_url_main = "https://ir.tesla.com"
 tesl_url_press = "https://ir.tesla.com/press"
 tesla_main_id = "main-content"
 tesla_press_releases = ["section", "class", "press-release-teaser"]
+tesla_press_releases_clean = [
+    "div",
+    "class",
+    "press-release-teaser__body tds-text--body",
+]
 tesla_press_release_title = ["h4", "class", "press-release-teaser__title", "a"]
 tesla_press_release_date = [
     "div",
@@ -19,7 +24,8 @@ class Company:
     def __init__(self, name: str) -> None:
         self.name = name
         self.page_content = self.fetch_page_content()
-        self.press_releases = self.parse_all_press_releases()
+        self.full_press_releases = self.parse_all_press_releases()
+        self.clean_press_releases = self.clean_all_press_releases()
         self.titles = self.parse_titles()
         self.dates = self.parse_dates()
         self.links = self.parse_links()
@@ -36,7 +42,6 @@ class Company:
         return results
 
     def parse_all_press_releases(self) -> BeautifulSoup:
-
         if self.name == "Tesla":
             page_content = self.page_content
             html_tag = tesla_press_releases[0]
@@ -47,9 +52,28 @@ class Company:
 
         return press_releases
 
+    def clean_all_press_releases(self) -> BeautifulSoup:
+        clean_press_releases = []
+        for full_press_release in self.full_press_releases:
+            if self.name == "Tesla":
+                html_tag = tesla_press_releases_clean[0]
+                html_attr = tesla_press_releases_clean[1]
+                html_attr_val = tesla_press_releases_clean[2]
+
+            clean_press_release = full_press_release.find(
+                html_tag, {html_attr: html_attr_val}
+            )
+
+            if self.name == "Tesla":
+                clean_press_release = clean_press_release.find_all("div")[2]
+
+            clean_press_releases.append(clean_press_release)
+
+        return clean_press_releases
+
     def parse_titles(self) -> list:
         titles = []
-        for press_release in self.press_releases:
+        for press_release in self.full_press_releases:
             if self.name == "Tesla":
                 html_tag = tesla_press_release_title[0]
                 html_attr = tesla_press_release_title[1]
@@ -67,7 +91,7 @@ class Company:
 
     def parse_dates(self) -> list:
         dates = []
-        for press_release in self.press_releases:
+        for press_release in self.full_press_releases:
             if self.name == "Tesla":
                 html_tag = tesla_press_release_date[0]
                 html_attr = tesla_press_release_date[1]
@@ -83,7 +107,7 @@ class Company:
 
     def parse_links(self) -> list:
         links = []
-        for press_release in self.press_releases:
+        for press_release in self.full_press_releases:
             link = press_release.find("a")["href"]
             if link[0] != "h":
                 if self.name == "Tesla":
@@ -92,8 +116,8 @@ class Company:
         return links
 
     def display_news(self) -> None:
-        for i in range(len(self.press_releases)):
+        for i in range(len(self.full_press_releases)):
             print(self.dates[i], "-", self.titles[i])
-            print(self.press_releases[i])
-            print(self.links[i])
+            print(self.clean_press_releases[i])
+            print("Link:", self.links[i])
             print("-----", end="\n" * 2)
