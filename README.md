@@ -22,10 +22,10 @@ Currently, there are two companies added to *IRNewsFetcher*:
 
 You can either choose to see the recent press releases of all currently implemented companies by running
 ```console
-$ python3 irnewsfetcher/IRNewsFetcher.py --all
+$ python3 irnewsfetcher/main.py --all
 ```
 
 or select specific companies by adding their respective stock ticker symbol:
 ```console
-$ python3 irnewsfetcher/IRNewsFetcher.py --TSLA
+$ python3 irnewsfetcher/main.py --TSLA
 ```
