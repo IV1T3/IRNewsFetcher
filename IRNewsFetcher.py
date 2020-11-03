@@ -1,10 +1,18 @@
-from pprint import pprint
 import requests
+import pprint
 from bs4 import BeautifulSoup
+from Company import Company
+
+# TODO:
+# - implement additional companies
+# - implement sorting by date
+# - add argparser to only fetch releases from specific companies
+
+# In Process:
+# - Refactor each company as class, then only fetch on each class
 
 MAIN_URLS = ["https://ir.tesla.com"]
 PRESS_URLS = ["https://ir.tesla.com/press"]
-
 
 ARR_PRESS_RELEASE_TITLES = []
 ARR_PRESS_RELEASE_DATES = []
@@ -20,6 +28,13 @@ def get_content(url: str, selected_element_id: str) -> BeautifulSoup:
     return results
 
 
+### New OOP approach ###
+tesla = Company("Tesla")
+
+print(tesla.press_releases)
+
+
+### Old non OOP approach ###
 for i in range(len(MAIN_URLS)):
 
     ARR_PRESS_RELEASE_TITLES.append([])
@@ -70,10 +85,10 @@ for i in range(len(MAIN_URLS)):
         press_release_contents.append(single_press_release_content)
 
 
-for i in range(len(ARR_PRESS_RELEASE_TITLES)):
-    for j in range(len(ARR_PRESS_RELEASE_TITLES[i])):
-        print(ARR_PRESS_RELEASE_DATES[i][j], "-", ARR_PRESS_RELEASE_TITLES[i][j])
-        print(ARR_PRESS_RELEASE_CONTENTS[i][j])
-        print("Link:", ARR_PRESS_RELEASE_LINKS[i][j])
+# for i in range(len(ARR_PRESS_RELEASE_TITLES)):
+#  for j in range(len(ARR_PRESS_RELEASE_TITLES[i])):
+# print(ARR_PRESS_RELEASE_DATES[i][j], "-", ARR_PRESS_RELEASE_TITLES[i][j])
+# print(ARR_PRESS_RELEASE_CONTENTS[i][j])
+# print("Link:", ARR_PRESS_RELEASE_LINKS[i][j])
 
-        print("-----", end="\n" * 2)
+# print("-----", end="\n" * 2)
