@@ -1,5 +1,8 @@
+from time import strptime
 from bs4 import BeautifulSoup
 import requests
+import time
+import datetime
 
 # TSLA information
 tesla_ir_url_main = "https://ir.tesla.com"
@@ -40,7 +43,7 @@ class Company:
         self.full_press_releases = self.parse_all_press_releases()
         self.clean_press_releases = self.clean_all_press_releases()
         self.titles = self.parse_titles()
-        self.dates = self.parse_dates()
+        self.dates, self.timestamps = self.parse_dates()
         self.links = self.parse_links()
 
     def fetch_page_content(self) -> BeautifulSoup:
@@ -133,7 +136,7 @@ class Company:
         return titles
 
     def parse_dates(self) -> list:
-        dates = []
+        dates, timestamps = [], []
         for press_release in self.full_press_releases:
             if self.name == "Tesla":
                 html_tag = tesla_press_release_date[0]
@@ -152,8 +155,16 @@ class Company:
 
             date = date.contents[0]
 
+            if date[3] == " ":
+                element = datetime.datetime.strptime(date, "%b %d, %Y")
+            else:
+                element = datetime.datetime.strptime(date, "%B %d, %Y")
+            timestamp = datetime.datetime.timestamp(element)
+
             dates.append(date)
-        return dates
+            timestamps.append(timestamp)
+
+        return dates, timestamps
 
     def parse_links(self) -> list:
         links = []
@@ -177,4 +188,14 @@ class Company:
         print("------------- #### END ", self.name, "#### -----------------")
 
     def get_structured_press_releases(self) -> list:
-        return
+        structured_press_releases = []
+        for i in range(len(self.dates)):
+            structured_press_release = [self.name, self.timestamps[i]]
+            structured_press_release.append(self.titles[i])
+            structured_press_release.append(self.dates[i])
+            structured_press_release.append(self.links[i])
+            structured_press_release.append(self.clean_press_releases[i])
+
+            structured_press_releases.append(structured_press_release)
+
+        return structured_press_releases
