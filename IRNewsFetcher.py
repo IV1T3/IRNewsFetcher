@@ -1,16 +1,3 @@
-# TODO:
-# - Implement additional companies
-# - Add specific industries to choose from
-
-# In Process:
-# - Implement NVIDIA
-
-# DONE:
-# - 03.11.20: Refactor Company as class, then only fetch on each class
-# - 03.11.20: add argparser to only fetch releases from specific companies
-# - 03.11.20: Implement Apple
-# - 03.11.20: Implement sorting by date
-
 import argparse
 import pprint
 from Company import Company
