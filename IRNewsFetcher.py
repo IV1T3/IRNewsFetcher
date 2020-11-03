@@ -1,13 +1,14 @@
 # TODO:
-# - implement additional companies
-# - implement sorting by date
+# - Implement additional companies
+# - Add specific industries to choose from
 
 # In Process:
-# - Implement Apple
+# - Implement sorting by date
 
 # DONE:
 # - Refactor Company as class, then only fetch on each class
 # - add argparser to only fetch releases from specific companies
+# - Implement Apple
 
 import argparse
 from Company import Company
@@ -41,3 +42,6 @@ if __name__ == "__main__":
     if args.tsla or args.all:
         tesla = Company("Tesla")
         tesla.display_news()
+    if args.aapl or args.all:
+        apple = Company("Apple")
+        apple.display_news()
