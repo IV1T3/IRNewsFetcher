@@ -30,8 +30,7 @@ def get_content(url: str, selected_element_id: str) -> BeautifulSoup:
 
 ### New OOP approach ###
 tesla = Company("Tesla")
-
-print(tesla.press_releases)
+tesla.display_news()
 
 
 ### Old non OOP approach ###
