@@ -1,6 +1,6 @@
 # IRNewsFetcher - Lightweight Investor Relation News Fetcher
 
-*IRNewsFetcher* is a tool that helps you to keep up with the most recent press releases of selected companies.
+*IRNewsFetcher* is a CLI tool that helps you to keep up with the most recent press releases of selected companies.
 
 ## Installation
 
