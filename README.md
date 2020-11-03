@@ -4,9 +4,13 @@
 
 ## Installation
 
+The Python *virtualenv* is recommended to use as a Python environment. This project requires Python3.
+
 ```console
 $ git clone https://github.com/IV1T3/IRNewsFetcher.git
 $ cd IRNewsFetcher
+$ virtualenv venv
+$ source venv/bin/activate
 $ pip3 install -r requirements.txt
 ```
 
