@@ -1,6 +1,6 @@
 # IRNewsFetcher - Lightweight Investor Relation News Fetcher
 
-IRNewsFetcher is a tool that helps you to keep up with the most recent press releases of selected companies.
+*IRNewsFetcher* is a tool that helps you to keep up with the most recent press releases of selected companies.
 
 ## Installation
 
@@ -18,10 +18,10 @@ Currently, there are two companies added to *IRNewsFetcher*:
 
 You can either choose to see the recent press releases of all currently implemented companies by running
 ```console
-$ python3 IRNewsFetcher.py --all
+$ python3 irnewsfetcher/IRNewsFetcher.py --all
 ```
 
 or select specific companies by adding their respective stock ticker symbol:
 ```console
-$ python3 IRNewsFetcher.py --TSLA
+$ python3 irnewsfetcher/IRNewsFetcher.py --TSLA
 ```
