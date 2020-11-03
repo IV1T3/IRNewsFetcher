@@ -19,9 +19,9 @@ class Company:
     def __init__(self, name: str) -> None:
         self.name = name
         self.page_content = self.fetch_page_content()
-        self.press_releases = self.fetch_all_press_releases()
-        self.titles = self.get_titles()
-        self.dates = self.get_dates()
+        self.press_releases = self.parse_all_press_releases()
+        self.titles = self.parse_titles()
+        self.dates = self.parse_dates()
 
     def fetch_page_content(self) -> BeautifulSoup:
         url_press = ""
@@ -34,7 +34,7 @@ class Company:
 
         return results
 
-    def fetch_all_press_releases(self) -> BeautifulSoup:
+    def parse_all_press_releases(self) -> BeautifulSoup:
 
         if self.name == "Tesla":
             page_content = self.page_content
@@ -46,7 +46,7 @@ class Company:
 
         return press_releases
 
-    def get_titles(self):
+    def parse_titles(self):
         titles = []
         for press_release in self.press_releases:
             if self.name == "Tesla":
@@ -64,13 +64,24 @@ class Company:
 
         return titles
 
-    def get_dates(self):
+    def parse_dates(self):
         dates = []
-
+        for press_release in self.press_releases:
+            if self.name == "Tesla":
+                html_tag = tesla_press_release_date[0]
+                html_attr = tesla_press_release_date[1]
+                html_attr_val = tesla_press_release_date[2]
+                html_tag_two = tesla_press_release_date[3]
+            date = (
+                press_release.find(html_tag, {html_attr: html_attr_val})
+                .find(html_tag_two)
+                .contents[0]
+            )
+            dates.append(date)
         return dates
 
     def display_news(self) -> None:
         for i in range(len(self.press_releases)):
-            print(self.titles[i])
+            print(self.dates[i], "-", self.titles[i])
             print(self.press_releases[i])
             print("-----", end="\n" * 2)
