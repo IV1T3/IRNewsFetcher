@@ -12,6 +12,24 @@ apple = {
     ],
 }
 
+johnson_and_johnson = {
+    "url_main": "https://www.jnj.com/",
+    "url_press": "https://johnsonandjohnson.gcs-web.com/press-releases",
+    "main_id": "block-nir-pid2893-content",
+    "press_releases": ["tr", "id", "noAcc"],
+    "press_releases_clean": [],
+    "press_release_title": [
+        "div",
+        "class",
+        "nir-widget--field nir-widget--news--headline",
+    ],
+    "press_release_date": [
+        "div",
+        "class",
+        "nir-widget--field nir-widget--news--date-time",
+    ],
+}
+
 microsoft = {
     "url_main": "https://www.microsoft.com",
     "url_press": "https://news.microsoft.com/category/press-releases/",
@@ -63,4 +81,10 @@ tesla = {
     ],
 }
 
-data_dict = {"apple": apple, "microsoft": microsoft, "nvidia": nvidia, "tesla": tesla}
+data_dict = {
+    "apple": apple,
+    "johnsonandjohnson": johnson_and_johnson,
+    "microsoft": microsoft,
+    "nvidia": nvidia,
+    "tesla": tesla,
+}

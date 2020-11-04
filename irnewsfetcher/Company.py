@@ -46,7 +46,7 @@ class Company:
             clean_press_release = []
             pagedata_tag, pagedata_attr, pagedata_attr_val = [], [], []
 
-            no_press_release_teaser = ["apple", "microsoft"]
+            no_press_release_teaser = ["apple", "johnsonandjohnson", "microsoft"]
 
             if self.name not in no_press_release_teaser:
                 pagedata_tag = pagedata.data_dict[self.name]["press_releases_clean"][0]
@@ -94,7 +94,12 @@ class Company:
             elif self.name == "nvidia":
                 title = title.find("a")
 
-            title = title.contents[0].lstrip().rstrip()
+            if self.name == "johnsonandjohnson":
+                title = title.contents[1].contents[0]
+            else:
+                title = title.contents[0]
+
+            title = title.lstrip().rstrip()
 
             # Post-Parsing
             titles.append(title)
@@ -127,7 +132,12 @@ class Company:
             if self.name == "tesla":
                 date = date.find(pagedata_tag_two)
 
-            date = date.contents[0].lstrip().rstrip()
+            if self.name == "johnsonandjohnson":
+                date = date.contents[1]
+            else:
+                date = date.contents[0]
+
+            date = date.lstrip().rstrip()
 
             if date.split()[0][:-1] in days:
                 element = datetime.datetime.strptime(date, "%A, %B %d, %Y")

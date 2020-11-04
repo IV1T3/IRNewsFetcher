@@ -32,6 +32,13 @@ if __name__ == "__main__":
         help="Fetches new press releases from Apple Inc.",
     )
     my_parser.add_argument(
+        "--JNJ",
+        action="store_true",
+        default=0,
+        dest="johnsonandjohnson",
+        help="Fetches new press releases from Johnson & Johnson",
+    )
+    my_parser.add_argument(
         "--MSFT",
         action="store_true",
         default=0,
@@ -55,7 +62,7 @@ if __name__ == "__main__":
 
     args = my_parser.parse_args()
 
-    valid_companies = ["apple", "microsoft", "nvidia", "tesla"]
+    valid_companies = ["apple", "johnsonandjohnson", "microsoft", "nvidia", "tesla"]
     all_structured_press_releases = []
 
     for arg in vars(args):
