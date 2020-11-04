@@ -82,9 +82,9 @@ tesla = {
 }
 
 data_dict = {
-    "apple": apple,
-    "johnsonandjohnson": johnson_and_johnson,
-    "microsoft": microsoft,
-    "nvidia": nvidia,
-    "tesla": tesla,
+    "aapl": apple,
+    "jnj": johnson_and_johnson,
+    "msft": microsoft,
+    "nvda": nvidia,
+    "tsla": tesla,
 }

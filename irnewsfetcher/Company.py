@@ -46,7 +46,7 @@ class Company:
             clean_press_release = []
             pagedata_tag, pagedata_attr, pagedata_attr_val = [], [], []
 
-            no_press_release_teaser = ["apple", "johnsonandjohnson", "microsoft"]
+            no_press_release_teaser = ["aapl", "jnj", "msft"]
 
             if self.name not in no_press_release_teaser:
                 pagedata_tag = pagedata.data_dict[self.name]["press_releases_clean"][0]
@@ -61,9 +61,9 @@ class Company:
                     pagedata_tag, {pagedata_attr: pagedata_attr_val}
                 )
 
-            if self.name == "tesla":
+            if self.name == "tsla":
                 clean_press_release = clean_press_release.find_all("div")[2].contents[0]
-            elif self.name == "nvidia":
+            elif self.name == "nvda":
                 clean_press_release = clean_press_release.contents[0]
 
             if self.name not in no_press_release_teaser:
@@ -81,7 +81,7 @@ class Company:
             pagedata_attr = pagedata.data_dict[self.name]["press_release_title"][1]
             pagedata_attr_val = pagedata.data_dict[self.name]["press_release_title"][2]
 
-            if self.name == "tesla":
+            if self.name == "tsla":
                 pagedata_tag_two = pagedata.data_dict[self.name]["press_release_title"][
                     3
                 ]
@@ -89,12 +89,12 @@ class Company:
             # Parsing
             title = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
 
-            if self.name == "tesla":
+            if self.name == "tsla":
                 title = title.find(pagedata_tag_two)
-            elif self.name == "nvidia":
+            elif self.name == "nvda":
                 title = title.find("a")
 
-            if self.name == "johnsonandjohnson":
+            if self.name == "jnj":
                 title = title.contents[1].contents[0]
             else:
                 title = title.contents[0]
@@ -122,17 +122,17 @@ class Company:
             pagedata_attr = pagedata.data_dict[self.name]["press_release_date"][1]
             pagedata_attr_val = pagedata.data_dict[self.name]["press_release_date"][2]
 
-            if self.name == "tesla":
+            if self.name == "tsla":
                 pagedata_tag_two = pagedata.data_dict[self.name]["press_release_date"][
                     3
                 ]
 
             date = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
 
-            if self.name == "tesla":
+            if self.name == "tsla":
                 date = date.find(pagedata_tag_two)
 
-            if self.name == "johnsonandjohnson":
+            if self.name == "jnj":
                 date = date.contents[1]
             else:
                 date = date.contents[0]
@@ -162,7 +162,7 @@ class Company:
         for press_release in self.full_press_releases:
             link = press_release.find("a")["href"]
             if link[0] != "h":
-                if self.name == "tesla" or self.name == "apple":
+                if self.name == "tsla" or self.name == "aapl":
                     link = pagedata.data_dict[self.name]["url_main"] + link
             links.append(link)
         return links
