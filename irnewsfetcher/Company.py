@@ -41,23 +41,22 @@ class Company:
 
     def clean_all_press_releases(self) -> BeautifulSoup:
         clean_press_releases = []
-        parse_clean = True
 
         for full_press_release in self.full_press_releases:
             clean_press_release = []
+            pagedata_tag, pagedata_attr, pagedata_attr_val = [], [], []
 
-            if self.name != "apple" and self.name != "microsoft":
+            no_press_release_teaser = ["apple", "microsoft"]
+
+            if self.name not in no_press_release_teaser:
                 pagedata_tag = pagedata.data_dict[self.name]["press_releases_clean"][0]
                 pagedata_attr = pagedata.data_dict[self.name]["press_releases_clean"][1]
                 pagedata_attr_val = pagedata.data_dict[self.name][
                     "press_releases_clean"
                 ][2]
 
-            if self.name == "apple" or self.name == "microsoft":
-                parse_clean = False
-
             # Cleaning
-            if parse_clean:
+            if pagedata_tag != []:
                 clean_press_release = full_press_release.find(
                     pagedata_tag, {pagedata_attr: pagedata_attr_val}
                 )
@@ -67,7 +66,7 @@ class Company:
             elif self.name == "nvidia":
                 clean_press_release = clean_press_release.contents[0]
 
-            if self.name != "apple" and self.name != "microsoft":
+            if self.name not in no_press_release_teaser:
                 clean_press_release = clean_press_release.lstrip().rstrip()
 
             # Post-Cleaning
@@ -136,6 +135,7 @@ class Company:
                 element = datetime.datetime.strptime(date, "%b %d, %Y")
             else:
                 element = datetime.datetime.strptime(date, "%B %d, %Y")
+
             timestamp = datetime.datetime.timestamp(element)
 
             new_date = datetime.datetime.fromtimestamp(timestamp).strftime(
