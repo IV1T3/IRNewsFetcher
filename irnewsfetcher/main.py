@@ -5,13 +5,14 @@ from Company import Company
 
 def display_structured_press_releases(press_releases: list) -> None:
     for press_release in press_releases:
-        print(
-            press_release[3], "-", press_release[0].capitalize(), "-", press_release[2]
-        )
+        print(press_release[3], "-", press_release[0].capitalize())
+        print(press_release[2])
+        print("")
         if press_release[5] != []:
             print(press_release[5])
         print("Link:", press_release[4])
         print("", end="\n")
+        # print(press_release)
         print("----", end="\n" * 2)
 
 

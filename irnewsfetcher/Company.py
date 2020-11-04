@@ -66,6 +66,8 @@ class Company:
             elif self.name == "nvidia":
                 clean_press_release = clean_press_release.contents[0]
 
+            clean_press_release = clean_press_release.lstrip().rstrip()
+
             # Post-Cleaning
             clean_press_releases.append(clean_press_release)
 
@@ -91,10 +93,7 @@ class Company:
             elif self.name == "nvidia":
                 title = title.find("a")
 
-            title = title.contents[0]
-
-            while title[0] == "\n" or title[0] == " ":
-                title = title[1:]
+            title = title.contents[0].lstrip().rstrip()
 
             # Post-Parsing
             titles.append(title)
