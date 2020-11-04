@@ -32,7 +32,7 @@ You can either choose to see the recent press releases of all currently implemen
 $ python3 irnewsfetcher/main.py --all
 ```
 
-or select specific companies by adding their respective stock ticker symbol:
+or select specific companies by adding their respective stock ticker symbol
 
 ```console
 $ python3 irnewsfetcher/main.py --AAPL --TSLA
