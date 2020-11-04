@@ -16,17 +16,21 @@ $ pip3 install -r requirements.txt
 
 ## How to use?
 
-Currently, there are three companies added to *IRNewsFetcher*:
+Currently, these companies are added to *IRNewsFetcher*:
+
 - Apple
-- Tesla
+- Microsoft
 - Nvidia
+- Tesla
 
 You can either choose to see the recent press releases of all currently implemented companies by running
+
 ```console
 $ python3 irnewsfetcher/main.py --all
 ```
 
 or select specific companies by adding their respective stock ticker symbol:
+
 ```console
 $ python3 irnewsfetcher/main.py --TSLA
 ```

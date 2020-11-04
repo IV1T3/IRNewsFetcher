@@ -19,7 +19,8 @@ class Company:
         url_press = pagedata.data_dict[self.name]["url_press"]
         selected_element_id = pagedata.data_dict[self.name]["main_id"]
 
-        page = requests.get(url_press)
+        header = {"User-Agent": "Mozilla/5.0"}
+        page = requests.get(url_press, headers=header)
         soup = BeautifulSoup(page.content, "html.parser")
         results = soup.find(id=selected_element_id)
 
@@ -45,14 +46,14 @@ class Company:
         for full_press_release in self.full_press_releases:
             clean_press_release = []
 
-            if not self.name == "apple":
+            if self.name != "apple" and self.name != "microsoft":
                 pagedata_tag = pagedata.data_dict[self.name]["press_releases_clean"][0]
                 pagedata_attr = pagedata.data_dict[self.name]["press_releases_clean"][1]
                 pagedata_attr_val = pagedata.data_dict[self.name][
                     "press_releases_clean"
                 ][2]
 
-            if self.name == "apple":
+            if self.name == "apple" or self.name == "microsoft":
                 parse_clean = False
 
             # Cleaning
@@ -66,7 +67,7 @@ class Company:
             elif self.name == "nvidia":
                 clean_press_release = clean_press_release.contents[0]
 
-            if not self.name == "apple":
+            if self.name != "apple" and self.name != "microsoft":
                 clean_press_release = clean_press_release.lstrip().rstrip()
 
             # Post-Cleaning
@@ -127,7 +128,7 @@ class Company:
             if self.name == "tesla":
                 date = date.find(pagedata_tag_two)
 
-            date = date.contents[0]
+            date = date.contents[0].lstrip().rstrip()
 
             if date.split()[0][:-1] in days:
                 element = datetime.datetime.strptime(date, "%A, %B %d, %Y")

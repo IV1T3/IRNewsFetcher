@@ -1,5 +1,4 @@
 import argparse
-import pprint
 from Company import Company
 
 
@@ -33,6 +32,13 @@ if __name__ == "__main__":
         help="Fetches new press releases from Apple Inc.",
     )
     my_parser.add_argument(
+        "--MSFT",
+        action="store_true",
+        default=0,
+        dest="msft",
+        help="Fetches new press releases from Microsoft Corporation.",
+    )
+    my_parser.add_argument(
         "--NVDA",
         action="store_true",
         default=0,
@@ -55,6 +61,14 @@ if __name__ == "__main__":
         apple = Company("apple")
         apple_struct = apple.get_structured_press_releases()
         all_structured_press_releases = [*all_structured_press_releases, *apple_struct]
+
+    if args.msft or args.all:
+        microsoft = Company("microsoft")
+        microsoft_struct = microsoft.get_structured_press_releases()
+        all_structured_press_releases = [
+            *all_structured_press_releases,
+            *microsoft_struct,
+        ]
 
     if args.nvda or args.all:
         nvidia = Company("nvidia")
