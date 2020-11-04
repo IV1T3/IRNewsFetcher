@@ -1,4 +1,5 @@
 import argparse
+import argparser
 from Company import Company
 
 
@@ -24,51 +25,8 @@ def display_structured_press_releases(press_releases: list) -> None:
 
 
 if __name__ == "__main__":
-    my_parser = argparse.ArgumentParser("Fetch new IR press releases.")
-    my_parser.add_argument(
-        "--all",
-        action="store_true",
-        default=0,
-        dest="all",
-        help="Fetches all available new press releases.",
-    )
-    my_parser.add_argument(
-        "--AAPL",
-        action="store_true",
-        default=0,
-        dest="aapl",
-        help="Fetches new press releases from Apple Inc.",
-    )
-    my_parser.add_argument(
-        "--JNJ",
-        action="store_true",
-        default=0,
-        dest="jnj",
-        help="Fetches new press releases from Johnson & Johnson",
-    )
-    my_parser.add_argument(
-        "--MSFT",
-        action="store_true",
-        default=0,
-        dest="msft",
-        help="Fetches new press releases from Microsoft Corporation.",
-    )
-    my_parser.add_argument(
-        "--NVDA",
-        action="store_true",
-        default=0,
-        dest="nvda",
-        help="Fetches new press releases from Nvidia Corporation",
-    )
-    my_parser.add_argument(
-        "--TSLA",
-        action="store_true",
-        default=0,
-        dest="tsla",
-        help="Fetches new press releases from Tesla, Inc.",
-    )
 
-    args = my_parser.parse_args()
+    args = argparser.get_args()
 
     valid_companies = ["appl", "jnj", "msft", "nvda", "tsla"]
     all_structured_press_releases = []
