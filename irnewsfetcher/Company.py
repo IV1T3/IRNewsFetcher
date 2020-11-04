@@ -16,17 +16,6 @@ class Company:
         self.links = self.parse_links()
 
     def fetch_page_content(self) -> BeautifulSoup:
-        # url_press = ""
-        # if self.name == "tesla":
-        #    url_press = pagedata.
-        #    selected_element_id = pagedata.tesla_main_id
-        # elif self.name == "apple":
-        #    url_press = pagedata.apple_url_press
-        #    selected_element_id = pagedata.apple_main_id
-        # elif self.name == "nvidia":
-        #    url_press = pagedata.nvidia_url_press
-        #    selected_element_id = pagedata.nvidia_main_id
-
         url_press = pagedata.data_dict[self.name]["url_press"]
         selected_element_id = pagedata.data_dict[self.name]["main_id"]
 
@@ -38,19 +27,6 @@ class Company:
 
     def parse_all_press_releases(self) -> BeautifulSoup:
         page_content = self.page_content
-
-        # if self.name == "tesla":
-        #    pagedata_tag = pagedata.tesla_press_releases[0]
-        #    pagedata_attr = pagedata.tesla_press_releases[1]
-        #    pagedata_attr_val = pagedata.tesla_press_releases[2]
-        # elif self.name == "apple":
-        #    pagedata_tag = pagedata.apple_press_releases[0]
-        #    pagedata_attr = pagedata.apple_press_releases[1]
-        #    pagedata_attr_val = pagedata.apple_press_releases[2]
-        # elif self.name == "nvidia":
-        #    pagedata_tag = pagedata.nvidia_press_releases[0]
-        #    pagedata_attr = pagedata.nvidia_press_releases[1]
-        #    pagedata_attr_val = pagedata.nvidia_press_releases[2]
 
         pagedata_tag = pagedata.data_dict[self.name]["press_releases"][0]
         pagedata_attr = pagedata.data_dict[self.name]["press_releases"][1]
@@ -68,17 +44,6 @@ class Company:
 
         for full_press_release in self.full_press_releases:
             clean_press_release = []
-
-            # Pre-Cleaning
-            # if self.name == "tesla":
-            #    pagedata_tag = pagedata.tesla_press_releases_clean[0]
-            #    pagedata_attr = pagedata.tesla_press_releases_clean[1]
-            #    pagedata_attr_val = pagedata.tesla_press_releases_clean[2]
-
-            # if self.name == "nvidia":
-            #    pagedata_tag = pagedata.nvidia_press_releases_clean[0]
-            #    pagedata_attr = pagedata.nvidia_press_releases_clean[1]
-            #    pagedata_attr_val = pagedata.nvidia_press_releases_clean[2]
 
             if not self.name == "apple":
                 pagedata_tag = pagedata.data_dict[self.name]["press_releases_clean"][0]
@@ -109,22 +74,6 @@ class Company:
     def parse_titles(self) -> list:
         titles = []
         for press_release in self.full_press_releases:
-
-            # Pre-Parsing
-            # if self.name == "tesla":
-            #    pagedata_tag = pagedata.tesla_press_release_title[0]
-            #    pagedata_attr = pagedata.tesla_press_release_title[1]
-            #    pagedata_attr_val = pagedata.tesla_press_release_title[2]
-            #    pagedata_tag_two = pagedata.tesla_press_release_title[3]
-            # elif self.name == "apple":
-            #    pagedata_tag = pagedata.apple_press_release_title[0]
-            #    pagedata_attr = pagedata.apple_press_release_title[1]
-            #    pagedata_attr_val = pagedata.apple_press_release_title[2]
-            # elif self.name == "nvidia":
-            #    pagedata_tag = pagedata.nvidia_press_release_title[0]
-            #    pagedata_attr = pagedata.nvidia_press_release_title[1]
-            #    pagedata_attr_val = pagedata.nvidia_press_release_title[2]
-
             pagedata_tag = pagedata.data_dict[self.name]["press_release_title"][0]
             pagedata_attr = pagedata.data_dict[self.name]["press_release_title"][1]
             pagedata_attr_val = pagedata.data_dict[self.name]["press_release_title"][2]
@@ -164,20 +113,6 @@ class Company:
         ]
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
-            # if self.name == "tesla":
-            #    pagedata_tag = pagedata.tesla_press_release_date[0]
-            #    pagedata_attr = pagedata.tesla_press_release_date[1]
-            #    pagedata_attr_val = pagedata.tesla_press_release_date[2]
-            #    pagedata_tag_two = pagedata.tesla_press_release_date[3]
-            # elif self.name == "apple":
-            #    pagedata_tag = pagedata.apple_press_release_date[0]
-            #    pagedata_attr = pagedata.apple_press_release_date[1]
-            #    pagedata_attr_val = pagedata.apple_press_release_date[2]
-            # elif self.name == "nvidia":
-            #    pagedata_tag = pagedata.nvidia_press_release_date[0]
-            #    pagedata_attr = pagedata.nvidia_press_release_date[1]
-            #    pagedata_attr_val = pagedata.nvidia_press_release_date[2]
-
             pagedata_tag = pagedata.data_dict[self.name]["press_release_date"][0]
             pagedata_attr = pagedata.data_dict[self.name]["press_release_date"][1]
             pagedata_attr_val = pagedata.data_dict[self.name]["press_release_date"][2]
