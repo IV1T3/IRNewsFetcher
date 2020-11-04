@@ -19,6 +19,7 @@ $ pip3 install -r requirements.txt
 Currently, these companies are added to *IRNewsFetcher*:
 
 - Apple
+- Johnson & Johnson
 - Microsoft
 - Nvidia
 - Tesla
