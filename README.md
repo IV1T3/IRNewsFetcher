@@ -25,6 +25,7 @@ Currently, these companies are added to *IRNewsFetcher*:
 | Microsoft         | MSFT   |
 | Nvidia            | NVDA   |
 | Tesla             | TSLA   |
+| Unilever          | UL     |
 
 You can either choose to see the recent press releases of all currently implemented companies by running
 

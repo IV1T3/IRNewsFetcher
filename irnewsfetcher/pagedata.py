@@ -91,10 +91,27 @@ tesla = {
     ],
 }
 
+unilever = {
+    "company_name": "Unilever plc",
+    "url_press": "https://www.unilever.com/news/press-releases/",
+    "url_press_prefix_noAcc": "https://www.unilever.com",
+    "url_press_prefix_wAcc": "https://www.unilever.com",
+    "main_id": "grid",
+    "press_releases": ["div", "class", "mag__card flex-child"],
+    "press_releases_clean": [],
+    "press_release_title": [
+        "span",
+        "class",
+        "mag__card__content__title mag__card__content__title--pressrelease",
+    ],
+    "press_release_date": ["span", "class", "mag__card__content__date"],
+}
+
 data_dict = {
     "aapl": apple,
     "jnj": johnson_and_johnson,
     "msft": microsoft,
     "nvda": nvidia,
     "tsla": tesla,
+    "ul": unilever,
 }

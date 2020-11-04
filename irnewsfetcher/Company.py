@@ -1,6 +1,8 @@
-from bs4 import BeautifulSoup
-import requests
 import datetime
+import requests
+
+from bs4 import BeautifulSoup
+from dateutil import parser
 
 import pagedata
 
@@ -47,7 +49,7 @@ class Company:
             clean_press_release = []
             pagedata_tag, pagedata_attr, pagedata_attr_val = [], [], []
 
-            no_press_release_teaser = ["aapl", "jnj", "msft"]
+            no_press_release_teaser = ["aapl", "jnj", "msft", "ul"]
 
             if self.ticker not in no_press_release_teaser:
                 pagedata_tag = pagedata.data_dict[self.ticker]["press_releases_clean"][
@@ -146,15 +148,13 @@ class Company:
 
             date = date.lstrip().rstrip()
 
-            if date.split()[0][:-1] in days:
-                element = datetime.datetime.strptime(date, "%A, %B %d, %Y")
-            elif date[3] == " ":
-                element = datetime.datetime.strptime(date, "%b %d, %Y")
-            else:
-                element = datetime.datetime.strptime(date, "%B %d, %Y")
+            is_day_first = False
+            if self.ticker == "ul":
+                is_day_first = True
 
-            timestamp = datetime.datetime.timestamp(element)
+            date = parser.parse(date, dayfirst=is_day_first)
 
+            timestamp = datetime.datetime.timestamp(date)
             new_date = datetime.datetime.fromtimestamp(timestamp).strftime(
                 "%A, %B %d, %Y"
             )

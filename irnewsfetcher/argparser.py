@@ -57,7 +57,13 @@ def init_argparse() -> argparse.ArgumentParser:
         dest="tsla",
         help="Fetches new press releases from Tesla, Inc.",
     )
-
+    my_parser.add_argument(
+        "--UL",
+        action="store_true",
+        default=0,
+        dest="ul",
+        help="Fetches new press releases from Unilever plc",
+    )
     return my_parser
 
 
