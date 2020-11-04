@@ -35,5 +35,11 @@ $ python3 irnewsfetcher/main.py --all
 or select specific companies by adding their respective stock ticker symbol:
 
 ```console
-$ python3 irnewsfetcher/main.py --TSLA
+$ python3 irnewsfetcher/main.py --AAPL --TSLA
+```
+
+Additionally, you can choose to display only press releases, which were published recently. Default is set to 4 weeks. However, you may change the value by using the weeks argument
+
+```console
+$ python3 irnewsfetcher/main.py --all --weeks=1
 ```

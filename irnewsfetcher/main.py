@@ -1,9 +1,10 @@
 import argparse
 import argparser
+import time
 from Company import Company
 
 
-def display_structured_press_releases(press_releases: list) -> None:
+def display_structured_press_releases(press_releases: list, weeks: int) -> None:
     company_names = {
         "aapl": "Apple, Inc.",
         "jnj": "Johnson & Johnson",
@@ -12,16 +13,19 @@ def display_structured_press_releases(press_releases: list) -> None:
         "tsla": "Tesla, Inc.",
     }
 
+    now = time.time()
+
     for press_release in press_releases:
-        print(press_release[3], "-", company_names[press_release[0]])
-        print(press_release[2])
-        print("")
-        if press_release[5] != []:
-            print(press_release[5])
-        print("Link:", press_release[4])
-        print("", end="\n")
-        # print(press_release)
-        print("----", end="\n" * 2)
+        if (now - press_release[1]) < (60 * 60 * 24 * 7 * weeks):
+            print(press_release[3], "-", company_names[press_release[0]])
+            print(press_release[2])
+            print("")
+            if press_release[5] != []:
+                print(press_release[5])
+            print("Link:", press_release[4])
+            print("", end="\n")
+            # print(press_release)
+            print("----", end="\n" * 2)
 
 
 if __name__ == "__main__":
@@ -41,4 +45,4 @@ if __name__ == "__main__":
 
     all_structured_press_releases.sort(key=lambda x: x[1])
 
-    display_structured_press_releases(all_structured_press_releases)
+    display_structured_press_releases(all_structured_press_releases, args.weeks)

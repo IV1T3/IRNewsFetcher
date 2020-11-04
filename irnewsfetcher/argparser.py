@@ -3,6 +3,8 @@ import argparse
 
 def init_argparse() -> argparse.ArgumentParser:
     my_parser = argparse.ArgumentParser("Fetch new IR press releases.")
+
+    # General
     my_parser.add_argument(
         "--all",
         action="store_true",
@@ -10,6 +12,16 @@ def init_argparse() -> argparse.ArgumentParser:
         dest="all",
         help="Fetches all available new press releases.",
     )
+
+    my_parser.add_argument(
+        "--weeks",
+        type=int,
+        default=4,
+        dest="weeks",
+        help="Displays only press releases in the last weeks specified.",
+    )
+
+    # Companies
     my_parser.add_argument(
         "--AAPL",
         action="store_true",
