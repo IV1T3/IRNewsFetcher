@@ -48,10 +48,9 @@ class Company:
         for full_press_release in self.full_press_releases:
             clean_press_release = []
             pagedata_tag, pagedata_attr, pagedata_attr_val = [], [], []
+            no_press_release_teaser = False
 
-            no_press_release_teaser = ["aapl", "jnj", "msft", "ul"]
-
-            if self.ticker not in no_press_release_teaser:
+            if len(pagedata.company_dict[self.ticker]["press_releases_clean"]) > 0:
                 pagedata_tag = pagedata.company_dict[self.ticker][
                     "press_releases_clean"
                 ][0]
@@ -62,21 +61,20 @@ class Company:
                     "press_releases_clean"
                 ][2]
 
-            # Cleaning
-            if pagedata_tag != []:
                 clean_press_release = full_press_release.find(
                     pagedata_tag, {pagedata_attr: pagedata_attr_val}
                 )
+
+                no_press_release_teaser = True
 
             if self.ticker == "tsla":
                 clean_press_release = clean_press_release.find_all("div")[2].contents[0]
             elif self.ticker == "nvda":
                 clean_press_release = clean_press_release.contents[0]
 
-            if self.ticker not in no_press_release_teaser:
+            if no_press_release_teaser:
                 clean_press_release = clean_press_release.lstrip().rstrip()
 
-            # Post-Cleaning
             clean_press_releases.append(clean_press_release)
 
         return clean_press_releases
