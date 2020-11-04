@@ -6,8 +6,9 @@ import pagedata
 
 
 class Company:
-    def __init__(self, name: str) -> None:
-        self.name = name
+    def __init__(self, ticker: str) -> None:
+        self.ticker = ticker
+        self.name = pagedata.data_dict[self.ticker]["company_name"]
         self.page_content = self.fetch_page_content()
         self.full_press_releases = self.parse_all_press_releases()
         self.clean_press_releases = self.clean_all_press_releases()
@@ -16,8 +17,8 @@ class Company:
         self.links = self.parse_links()
 
     def fetch_page_content(self) -> BeautifulSoup:
-        url_press = pagedata.data_dict[self.name]["url_press"]
-        selected_element_id = pagedata.data_dict[self.name]["main_id"]
+        url_press = pagedata.data_dict[self.ticker]["url_press"]
+        selected_element_id = pagedata.data_dict[self.ticker]["main_id"]
 
         header = {"User-Agent": "Mozilla/5.0"}
         page = requests.get(url_press, headers=header)
@@ -29,9 +30,9 @@ class Company:
     def parse_all_press_releases(self) -> BeautifulSoup:
         page_content = self.page_content
 
-        pagedata_tag = pagedata.data_dict[self.name]["press_releases"][0]
-        pagedata_attr = pagedata.data_dict[self.name]["press_releases"][1]
-        pagedata_attr_val = pagedata.data_dict[self.name]["press_releases"][2]
+        pagedata_tag = pagedata.data_dict[self.ticker]["press_releases"][0]
+        pagedata_attr = pagedata.data_dict[self.ticker]["press_releases"][1]
+        pagedata_attr_val = pagedata.data_dict[self.ticker]["press_releases"][2]
 
         press_releases = page_content.find_all(
             pagedata_tag, {pagedata_attr: pagedata_attr_val}
@@ -48,10 +49,14 @@ class Company:
 
             no_press_release_teaser = ["aapl", "jnj", "msft"]
 
-            if self.name not in no_press_release_teaser:
-                pagedata_tag = pagedata.data_dict[self.name]["press_releases_clean"][0]
-                pagedata_attr = pagedata.data_dict[self.name]["press_releases_clean"][1]
-                pagedata_attr_val = pagedata.data_dict[self.name][
+            if self.ticker not in no_press_release_teaser:
+                pagedata_tag = pagedata.data_dict[self.ticker]["press_releases_clean"][
+                    0
+                ]
+                pagedata_attr = pagedata.data_dict[self.ticker]["press_releases_clean"][
+                    1
+                ]
+                pagedata_attr_val = pagedata.data_dict[self.ticker][
                     "press_releases_clean"
                 ][2]
 
@@ -61,12 +66,12 @@ class Company:
                     pagedata_tag, {pagedata_attr: pagedata_attr_val}
                 )
 
-            if self.name == "tsla":
+            if self.ticker == "tsla":
                 clean_press_release = clean_press_release.find_all("div")[2].contents[0]
-            elif self.name == "nvda":
+            elif self.ticker == "nvda":
                 clean_press_release = clean_press_release.contents[0]
 
-            if self.name not in no_press_release_teaser:
+            if self.ticker not in no_press_release_teaser:
                 clean_press_release = clean_press_release.lstrip().rstrip()
 
             # Post-Cleaning
@@ -77,24 +82,26 @@ class Company:
     def parse_titles(self) -> list:
         titles = []
         for press_release in self.full_press_releases:
-            pagedata_tag = pagedata.data_dict[self.name]["press_release_title"][0]
-            pagedata_attr = pagedata.data_dict[self.name]["press_release_title"][1]
-            pagedata_attr_val = pagedata.data_dict[self.name]["press_release_title"][2]
+            pagedata_tag = pagedata.data_dict[self.ticker]["press_release_title"][0]
+            pagedata_attr = pagedata.data_dict[self.ticker]["press_release_title"][1]
+            pagedata_attr_val = pagedata.data_dict[self.ticker]["press_release_title"][
+                2
+            ]
 
-            if self.name == "tsla":
-                pagedata_tag_two = pagedata.data_dict[self.name]["press_release_title"][
-                    3
-                ]
+            if self.ticker == "tsla":
+                pagedata_tag_two = pagedata.data_dict[self.ticker][
+                    "press_release_title"
+                ][3]
 
             # Parsing
             title = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
 
-            if self.name == "tsla":
+            if self.ticker == "tsla":
                 title = title.find(pagedata_tag_two)
-            elif self.name == "nvda":
+            elif self.ticker == "nvda":
                 title = title.find("a")
 
-            if self.name == "jnj":
+            if self.ticker == "jnj":
                 title = title.contents[1].contents[0]
             else:
                 title = title.contents[0]
@@ -118,21 +125,21 @@ class Company:
         ]
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
-            pagedata_tag = pagedata.data_dict[self.name]["press_release_date"][0]
-            pagedata_attr = pagedata.data_dict[self.name]["press_release_date"][1]
-            pagedata_attr_val = pagedata.data_dict[self.name]["press_release_date"][2]
+            pagedata_tag = pagedata.data_dict[self.ticker]["press_release_date"][0]
+            pagedata_attr = pagedata.data_dict[self.ticker]["press_release_date"][1]
+            pagedata_attr_val = pagedata.data_dict[self.ticker]["press_release_date"][2]
 
-            if self.name == "tsla":
-                pagedata_tag_two = pagedata.data_dict[self.name]["press_release_date"][
-                    3
-                ]
+            if self.ticker == "tsla":
+                pagedata_tag_two = pagedata.data_dict[self.ticker][
+                    "press_release_date"
+                ][3]
 
             date = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
 
-            if self.name == "tsla":
+            if self.ticker == "tsla":
                 date = date.find(pagedata_tag_two)
 
-            if self.name == "jnj":
+            if self.ticker == "jnj":
                 date = date.contents[1]
             else:
                 date = date.contents[0]
@@ -162,10 +169,10 @@ class Company:
         for press_release in self.full_press_releases:
             link = press_release.find("a")["href"]
 
-            link = pagedata.data_dict[self.name]["url_press_prefix_noAcc"] + link
+            link = pagedata.data_dict[self.ticker]["url_press_prefix_noAcc"] + link
 
             if link[0] == "/":
-                link = pagedata.data_dict[self.name]["url_press_prefix_wAcc"] + link
+                link = pagedata.data_dict[self.ticker]["url_press_prefix_wAcc"] + link
 
             links.append(link)
         return links
@@ -177,16 +184,17 @@ class Company:
                 print(self.clean_press_releases[i])
             print("Link:", self.links[i])
             print("-----", end="\n" * 2)
-        print("------------- #### END ", self.name, "#### -----------------")
+        print("------------- #### END ", self.ticker, "#### -----------------")
 
     def get_structured_press_releases(self) -> list:
         structured_press_releases = []
         for i in range(len(self.dates)):
-            structured_press_release = [self.name, self.timestamps[i]]
+            structured_press_release = [self.ticker, self.timestamps[i]]
             structured_press_release.append(self.titles[i])
             structured_press_release.append(self.dates[i])
             structured_press_release.append(self.links[i])
             structured_press_release.append(self.clean_press_releases[i])
+            structured_press_release.append(self.name)
 
             structured_press_releases.append(structured_press_release)
 

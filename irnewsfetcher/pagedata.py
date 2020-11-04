@@ -1,4 +1,5 @@
 apple = {
+    "company_name": "Apple, Inc.",
     "url_press": "https://www.apple.com/newsroom",
     "url_press_prefix_noAcc": "https://www.apple.com",
     "url_press_prefix_wAcc": "https://www.apple.com",
@@ -14,6 +15,7 @@ apple = {
 }
 
 johnson_and_johnson = {
+    "company_name": "Johnson & Johnson",
     "url_press": "https://johnsonandjohnson.gcs-web.com/press-releases",
     "url_press_prefix_noAcc": "",
     "url_press_prefix_wAcc": "",
@@ -33,6 +35,7 @@ johnson_and_johnson = {
 }
 
 microsoft = {
+    "company_name": "Microsoft Corporation",
     "url_press": "https://news.microsoft.com/category/press-releases/",
     "url_press_prefix_noAcc": "",
     "url_press_prefix_wAcc": "",
@@ -52,6 +55,7 @@ microsoft = {
 }
 
 nvidia = {
+    "company_name": "NVIDIA Corporation",
     "url_press": "https://nvidianews.nvidia.com/news",
     "url_press_prefix_noAcc": "",
     "url_press_prefix_wAcc": "https://nvidianews.nvidia.com",
@@ -67,6 +71,7 @@ nvidia = {
 }
 
 tesla = {
+    "company_name": "Tesla, Inc.",
     "url_press": "https://ir.tesla.com/press",
     "url_press_prefix_noAcc": "https://ir.tesla.com",
     "url_press_prefix_wAcc": "https://ir.tesla.com",
