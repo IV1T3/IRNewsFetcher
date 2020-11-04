@@ -8,7 +8,9 @@ def display_structured_press_releases(press_releases: list, weeks: int) -> None:
     now = time.time()
 
     for press_release in press_releases:
-        if (now - press_release[1]) < (60 * 60 * 24 * 7 * weeks):
+        if weeks == -1 or (
+            weeks != -1 and (now - press_release[1]) < (60 * 60 * 24 * 7 * weeks)
+        ):
             print(press_release[3], "-", press_release[6])
             print(press_release[2])
             print("")
