@@ -1,6 +1,7 @@
 apple = {
-    "url_main": "https://www.apple.com",
     "url_press": "https://www.apple.com/newsroom",
+    "url_press_prefix_noAcc": "https://www.apple.com",
+    "url_press_prefix_wAcc": "https://www.apple.com",
     "main_id": "main",
     "press_releases": ["li", "class", "tile-item"],
     "press_releases_clean": [],
@@ -13,8 +14,9 @@ apple = {
 }
 
 johnson_and_johnson = {
-    "url_main": "https://www.jnj.com/",
     "url_press": "https://johnsonandjohnson.gcs-web.com/press-releases",
+    "url_press_prefix_noAcc": "",
+    "url_press_prefix_wAcc": "",
     "main_id": "block-nir-pid2893-content",
     "press_releases": ["tr", "id", "noAcc"],
     "press_releases_clean": [],
@@ -31,8 +33,9 @@ johnson_and_johnson = {
 }
 
 microsoft = {
-    "url_main": "https://www.microsoft.com",
     "url_press": "https://news.microsoft.com/category/press-releases/",
+    "url_press_prefix_noAcc": "",
+    "url_press_prefix_wAcc": "",
     "main_id": "content",
     "press_releases": [
         "div",
@@ -49,8 +52,9 @@ microsoft = {
 }
 
 nvidia = {
-    "url_main": "https://www.nvidia.com",
     "url_press": "https://nvidianews.nvidia.com/news",
+    "url_press_prefix_noAcc": "",
+    "url_press_prefix_wAcc": "https://nvidianews.nvidia.com",
     "main_id": "page-content",
     "press_releases": ["article", "class", "index-item"],
     "press_releases_clean": [
@@ -63,8 +67,9 @@ nvidia = {
 }
 
 tesla = {
-    "url_main": "https://ir.tesla.com",
     "url_press": "https://ir.tesla.com/press",
+    "url_press_prefix_noAcc": "https://ir.tesla.com",
+    "url_press_prefix_wAcc": "https://ir.tesla.com",
     "main_id": "main-content",
     "press_releases": ["section", "class", "press-release-teaser"],
     "press_releases_clean": [

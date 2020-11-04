@@ -161,9 +161,12 @@ class Company:
         links = []
         for press_release in self.full_press_releases:
             link = press_release.find("a")["href"]
-            if link[0] != "h":
-                if self.name == "tsla" or self.name == "aapl":
-                    link = pagedata.data_dict[self.name]["url_main"] + link
+
+            link = pagedata.data_dict[self.name]["url_press_prefix_noAcc"] + link
+
+            if link[0] == "/":
+                link = pagedata.data_dict[self.name]["url_press_prefix_wAcc"] + link
+
             links.append(link)
         return links
 
