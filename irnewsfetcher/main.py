@@ -28,57 +28,44 @@ if __name__ == "__main__":
         "--AAPL",
         action="store_true",
         default=0,
-        dest="aapl",
+        dest="apple",
         help="Fetches new press releases from Apple Inc.",
     )
     my_parser.add_argument(
         "--MSFT",
         action="store_true",
         default=0,
-        dest="msft",
+        dest="microsoft",
         help="Fetches new press releases from Microsoft Corporation.",
     )
     my_parser.add_argument(
         "--NVDA",
         action="store_true",
         default=0,
-        dest="nvda",
+        dest="nvidia",
         help="Fetches new press releases from Nvidia Corporation",
     )
     my_parser.add_argument(
         "--TSLA",
         action="store_true",
         default=0,
-        dest="tsla",
+        dest="tesla",
         help="Fetches new press releases from Tesla, Inc.",
     )
 
     args = my_parser.parse_args()
 
+    valid_companies = ["apple", "microsoft", "nvidia", "tesla"]
     all_structured_press_releases = []
 
-    if args.aapl or args.all:
-        apple = Company("apple")
-        apple_struct = apple.get_structured_press_releases()
-        all_structured_press_releases = [*all_structured_press_releases, *apple_struct]
-
-    if args.msft or args.all:
-        microsoft = Company("microsoft")
-        microsoft_struct = microsoft.get_structured_press_releases()
-        all_structured_press_releases = [
-            *all_structured_press_releases,
-            *microsoft_struct,
-        ]
-
-    if args.nvda or args.all:
-        nvidia = Company("nvidia")
-        nvidia_struct = nvidia.get_structured_press_releases()
-        all_structured_press_releases = [*all_structured_press_releases, *nvidia_struct]
-
-    if args.tsla or args.all:
-        tesla = Company("tesla")
-        tesla_struct = tesla.get_structured_press_releases()
-        all_structured_press_releases = [*all_structured_press_releases, *tesla_struct]
+    for arg in vars(args):
+        if arg in valid_companies and (getattr(args, arg) or args.all):
+            company = Company(arg)
+            company_struct = company.get_structured_press_releases()
+            all_structured_press_releases = [
+                *all_structured_press_releases,
+                *company_struct,
+            ]
 
     all_structured_press_releases.sort(key=lambda x: x[1])
 
