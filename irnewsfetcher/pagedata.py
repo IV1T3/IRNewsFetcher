@@ -107,7 +107,7 @@ unilever = {
     "press_release_date": ["span", "class", "mag__card__content__date"],
 }
 
-data_dict = {
+company_dict = {
     "aapl": apple,
     "jnj": johnson_and_johnson,
     "msft": microsoft,
