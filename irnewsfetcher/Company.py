@@ -66,7 +66,8 @@ class Company:
             elif self.name == "nvidia":
                 clean_press_release = clean_press_release.contents[0]
 
-            clean_press_release = clean_press_release.lstrip().rstrip()
+            if not self.name == "apple":
+                clean_press_release = clean_press_release.lstrip().rstrip()
 
             # Post-Cleaning
             clean_press_releases.append(clean_press_release)
