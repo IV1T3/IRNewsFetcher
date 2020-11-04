@@ -5,7 +5,9 @@ from Company import Company
 
 def display_structured_press_releases(press_releases: list) -> None:
     for press_release in press_releases:
-        print(press_release[3], "-", press_release[0], "-", press_release[2])
+        print(
+            press_release[3], "-", press_release[0].capitalize(), "-", press_release[2]
+        )
         if press_release[5] != []:
             print(press_release[5])
         print("Link:", press_release[4])
@@ -49,17 +51,17 @@ if __name__ == "__main__":
     all_structured_press_releases = []
 
     if args.aapl or args.all:
-        apple = Company("Apple")
+        apple = Company("apple")
         apple_struct = apple.get_structured_press_releases()
         all_structured_press_releases = [*all_structured_press_releases, *apple_struct]
 
     if args.nvda or args.all:
-        nvidia = Company("Nvidia")
+        nvidia = Company("nvidia")
         nvidia_struct = nvidia.get_structured_press_releases()
         all_structured_press_releases = [*all_structured_press_releases, *nvidia_struct]
 
     if args.tsla or args.all:
-        tesla = Company("Tesla")
+        tesla = Company("tesla")
         tesla_struct = tesla.get_structured_press_releases()
         all_structured_press_releases = [*all_structured_press_releases, *tesla_struct]
 
