@@ -27,20 +27,15 @@ Currently, these companies are added to *IRNewsFetcher*:
 | Tesla             | TSLA   |
 | Unilever          | UL     |
 
-You can either choose to see the recent press releases of all currently implemented companies by running
+
+To see all press releases of all currently implemented companies, run
 
 ```console
-$ python3 irnewsfetcher/main.py --all
+$ python3 irnewsfetcher/main.py --all --weeks=-1
 ```
 
-or select specific companies by adding their respective stock ticker symbol
+To see only specific press releases in the last two weeks (default: 4 weeks), run
 
 ```console
-$ python3 irnewsfetcher/main.py --AAPL --TSLA
-```
-
-Additionally, you can choose to display only press releases, which were published recently. Default is set to 4 weeks. However, you may change the value by using the weeks argument
-
-```console
-$ python3 irnewsfetcher/main.py --all --weeks=1
+$ python3 irnewsfetcher/main.py --AAPL --TSLA --weeks=2
 ```
