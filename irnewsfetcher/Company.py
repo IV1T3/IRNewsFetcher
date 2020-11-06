@@ -32,13 +32,19 @@ class Company:
     def parse_all_press_releases(self) -> BeautifulSoup:
         page_content = self.page_content
 
-        pagedata_tag = pagedata.company_dict[self.ticker]["press_releases"][0]
-        pagedata_attr = pagedata.company_dict[self.ticker]["press_releases"][1]
-        pagedata_attr_val = pagedata.company_dict[self.ticker]["press_releases"][2]
+        data_press_releases = pagedata.company_dict[self.ticker]["press_releases"]
 
-        press_releases = page_content.find_all(
-            pagedata_tag, {pagedata_attr: pagedata_attr_val}
-        )
+        if len(data_press_releases) > 1:
+            pagedata_tag = data_press_releases[0]
+            pagedata_attr = data_press_releases[1]
+            pagedata_attr_val = data_press_releases[2]
+
+            press_releases = page_content.find_all(
+                pagedata_tag, {pagedata_attr: pagedata_attr_val}
+            )
+        else:
+            pagedata_tag = data_press_releases[0]
+            press_releases = page_content.find_all(pagedata_tag)
 
         return press_releases
 
@@ -50,16 +56,14 @@ class Company:
             pagedata_tag, pagedata_attr, pagedata_attr_val = [], [], []
             no_press_release_teaser = False
 
-            if len(pagedata.company_dict[self.ticker]["press_releases_clean"]) > 0:
-                pagedata_tag = pagedata.company_dict[self.ticker][
-                    "press_releases_clean"
-                ][0]
-                pagedata_attr = pagedata.company_dict[self.ticker][
-                    "press_releases_clean"
-                ][1]
-                pagedata_attr_val = pagedata.company_dict[self.ticker][
-                    "press_releases_clean"
-                ][2]
+            data_press_release_clean = pagedata.company_dict[self.ticker][
+                "press_release_clean"
+            ]
+
+            if len(data_press_release_clean) > 0:
+                pagedata_tag = data_press_release_clean[0]
+                pagedata_attr = data_press_release_clean[1]
+                pagedata_attr_val = data_press_release_clean[2]
 
                 clean_press_release = full_press_release.find(
                     pagedata_tag, {pagedata_attr: pagedata_attr_val}
@@ -82,19 +86,25 @@ class Company:
     def parse_titles(self) -> list:
         titles = []
         for press_release in self.full_press_releases:
-            pagedata_tag = pagedata.company_dict[self.ticker]["press_release_title"][0]
-            pagedata_attr = pagedata.company_dict[self.ticker]["press_release_title"][1]
-            pagedata_attr_val = pagedata.company_dict[self.ticker][
+            data_press_release_title = pagedata.company_dict[self.ticker][
                 "press_release_title"
-            ][2]
+            ]
+
+            if len(data_press_release_title) > 0:
+                pagedata_tag = data_press_release_title[0]
+                pagedata_attr = data_press_release_title[1]
+                pagedata_attr_val = data_press_release_title[2]
 
             if self.ticker == "tsla":
-                pagedata_tag_two = pagedata.company_dict[self.ticker][
-                    "press_release_title"
-                ][3]
+                pagedata_tag_two = data_press_release_title[3]
 
             # Parsing
-            title = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
+            if len(data_press_release_title) > 0:
+                title = press_release.find(
+                    pagedata_tag, {pagedata_attr: pagedata_attr_val}
+                )
+            else:
+                title = list(press_release)[2]
 
             if self.ticker == "tsla":
                 title = title.find(pagedata_tag_two)
@@ -103,8 +113,12 @@ class Company:
 
             if self.ticker == "jnj":
                 title = title.contents[1].contents[0]
-            else:
+            elif self.ticker != "goog":
                 title = title.contents[0]
+
+            if self.ticker == "goog":
+                carriage_index = title.index("\n")
+                title = title[:carriage_index] + title[carriage_index + 18 :]
 
             title = title.lstrip().rstrip()
 

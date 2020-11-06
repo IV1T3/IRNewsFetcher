@@ -30,6 +30,13 @@ def init_argparse() -> argparse.ArgumentParser:
         help="Fetches new press releases from Apple Inc.",
     )
     my_parser.add_argument(
+        "--GOOG",
+        action="store_true",
+        default=0,
+        dest="goog",
+        help="Fetches new press releases from Alphabet Inc.",
+    )
+    my_parser.add_argument(
         "--JNJ",
         action="store_true",
         default=0,
