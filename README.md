@@ -32,7 +32,6 @@ Currently, these companies are added to *IRNewsFetcher*:
 | Tesla              | TSLA   |
 | Unilever           | UL     |
 
-
 To see all press releases of all currently implemented companies, run
 
 ```console

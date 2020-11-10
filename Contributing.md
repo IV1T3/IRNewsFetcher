@@ -5,8 +5,6 @@ Please open a new branch for each company you contribute.
 
 - irnewsfetcher/argparser.py
   - Add the company as an argument to the argparser.
-- irnewsfetcher/main.py
-  - Add the companies' ticker symbol to the *valid_companies* dictionary.
 - irnewsfetcher/pagedata.py
   - "rss": Set the boolean, whether you receive information through an RSS or not. However, RSS is currently not supported. Currently, this has to be always *False*.
   - "company_name": Add the full company name to be displayed.
@@ -19,7 +17,8 @@ Please open a new branch for each company you contribute.
   - "press_release_title": Add the HTML-tag, -attribute and -attribute-value to select the press releases' title.
   - "press_release_date": Add the HTML-tag, -attribute and -attribute-value to select the press releases' date.
   - "press_release_date_day_first": *True* if day in date first (e.g. DD/MM/YYY), *False* if month in date first (e.g. MM/DD/YYY).
-  - Add the ticker symbol and the respective dictionary variable to the *company_dict* dictionary.
+- irnewsfetcher/main.py
+  - Add the ticker symbol and the respective *pagedata* variable to the *company_dict* dictionary.
 - README.md: Add the company to the supported companies table.
 
 In case you experience some bugs, you would probably have to fix these in *irnewsfetcher/Company.py*.

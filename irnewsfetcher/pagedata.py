@@ -192,17 +192,3 @@ unilever = {
     "press_release_date": ["span", "class", "mag__card__content__date"],
     "press_release_date_day_first": True,
 }
-
-company_dict = {
-    "aapl": apple,
-    "brk": berkshire_hathaway,
-    "fb": facebook,
-    "goog": alphabet,
-    "jnj": johnson_and_johnson,
-    "lin": linde,
-    "msft": microsoft,
-    "nflx": netflix,
-    "nvda": nvidia,
-    "tsla": tesla,
-    "ul": unilever,
-}

@@ -4,13 +4,11 @@ import requests
 from bs4 import BeautifulSoup
 from dateutil import parser
 
-import pagedata
-
 
 class Company:
-    def __init__(self, ticker: str) -> None:
+    def __init__(self, ticker: str, company_data: dict) -> None:
         self.ticker = ticker
-        self.name = pagedata.company_dict[self.ticker]["company_name"]
+        self.company_data = company_data
         self.page_content = self.fetch_page_content()
         self.full_press_releases = self.parse_all_press_releases()
         self.clean_press_releases = self.clean_all_press_releases()
@@ -19,8 +17,8 @@ class Company:
         self.links = self.parse_links()
 
     def fetch_page_content(self) -> BeautifulSoup:
-        url_press = pagedata.company_dict[self.ticker]["url_press"]
-        selected_element_id = pagedata.company_dict[self.ticker]["main_id"]
+        url_press = self.company_data["url_press"]
+        selected_element_id = self.company_data["main_id"]
 
         header = {"User-Agent": "Mozilla/5.0"}
         page = requests.get(url_press, headers=header)
@@ -35,7 +33,7 @@ class Company:
     def parse_all_press_releases(self) -> BeautifulSoup:
         page_content = self.page_content
 
-        data_press_releases = pagedata.company_dict[self.ticker]["press_releases"]
+        data_press_releases = self.company_data["press_releases"]
 
         if len(data_press_releases) > 1:
             pagedata_tag = data_press_releases[0]
@@ -59,9 +57,7 @@ class Company:
             pagedata_tag, pagedata_attr, pagedata_attr_val = [], [], []
             no_press_release_teaser = False
 
-            data_press_release_clean = pagedata.company_dict[self.ticker][
-                "press_release_clean"
-            ]
+            data_press_release_clean = self.company_data["press_release_clean"]
 
             if len(data_press_release_clean) > 0:
                 pagedata_tag = data_press_release_clean[0]
@@ -103,9 +99,7 @@ class Company:
     def parse_titles(self) -> list:
         titles = []
         for press_release in self.full_press_releases:
-            data_press_release_title = pagedata.company_dict[self.ticker][
-                "press_release_title"
-            ]
+            data_press_release_title = self.company_data["press_release_title"]
 
             if len(data_press_release_title) > 0:
                 pagedata_tag = data_press_release_title[0]
@@ -154,9 +148,7 @@ class Company:
     def parse_dates(self) -> list:
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
-            data_press_release_date = pagedata.company_dict[self.ticker][
-                "press_release_date"
-            ]
+            data_press_release_date = self.company_data["press_release_date"]
 
             if len(data_press_release_date) > 0:
                 pagedata_tag = data_press_release_date[0]
@@ -189,9 +181,7 @@ class Company:
 
             date = date.lstrip().rstrip()
 
-            is_day_first = pagedata.company_dict[self.ticker][
-                "press_release_date_day_first"
-            ]
+            is_day_first = self.company_data["press_release_date_day_first"]
 
             if "at" in date:
                 date = date.split("at")[0]
@@ -214,20 +204,12 @@ class Company:
             init_link = press_release.find("a")["href"]
 
             if "earnings" in init_link:
-                link = (
-                    pagedata.company_dict[self.ticker]["url_press_prefix_wAcc"]
-                    + init_link
-                )
+                link = self.company_data["url_press_prefix_wAcc"] + init_link
             else:
-                link = (
-                    pagedata.company_dict[self.ticker]["url_press_prefix_noAcc"]
-                    + init_link
-                )
+                link = self.company_data["url_press_prefix_noAcc"] + init_link
 
             if link[0] == "/":
-                link = (
-                    pagedata.company_dict[self.ticker]["url_press_prefix_wAcc"] + link
-                )
+                link = self.company_data["url_press_prefix_wAcc"] + link
 
             links.append(link)
         return links
@@ -249,7 +231,7 @@ class Company:
             structured_press_release.append(self.dates[i])
             structured_press_release.append(self.links[i])
             structured_press_release.append(self.clean_press_releases[i])
-            structured_press_release.append(self.name)
+            structured_press_release.append(self.company_data["company_name"])
 
             structured_press_releases.append(structured_press_release)
 

@@ -1,6 +1,7 @@
 import time
 
 import argparser
+import pagedata
 from Company import Company
 
 
@@ -24,24 +25,25 @@ def display_structured_press_releases(press_releases: list, weeks: int) -> None:
 if __name__ == "__main__":
     args = argparser.get_args()
 
-    valid_companies = [
-        "aapl",
-        "brk",
-        "fb",
-        "goog",
-        "jnj",
-        "lin",
-        "msft",
-        "nflx",
-        "nvda",
-        "tsla",
-        "ul",
-    ]
+    company_dict = {
+        "aapl": pagedata.apple,
+        "brk": pagedata.berkshire_hathaway,
+        "fb": pagedata.facebook,
+        "goog": pagedata.alphabet,
+        "jnj": pagedata.johnson_and_johnson,
+        "lin": pagedata.linde,
+        "msft": pagedata.microsoft,
+        "nflx": pagedata.netflix,
+        "nvda": pagedata.nvidia,
+        "tsla": pagedata.tesla,
+        "ul": pagedata.unilever,
+    }
+
     all_structured_press_releases = []
 
     for arg in vars(args):
-        if arg in valid_companies and (getattr(args, arg) or args.all):
-            company = Company(arg)
+        if arg in company_dict.keys() and (getattr(args, arg) or args.all):
+            company = Company(arg, company_dict[arg])
             company_struct = company.get_structured_press_releases()
             all_structured_press_releases = [
                 *all_structured_press_releases,
