@@ -51,6 +51,13 @@ def init_argparse() -> argparse.ArgumentParser:
         help="Fetches new press releases from Johnson & Johnson",
     )
     my_parser.add_argument(
+        "--LIN",
+        action="store_true",
+        default=0,
+        dest="lin",
+        help="Fetches new press releases from Linde plc",
+    )
+    my_parser.add_argument(
         "--MSFT",
         action="store_true",
         default=0,

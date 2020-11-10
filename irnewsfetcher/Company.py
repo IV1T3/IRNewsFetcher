@@ -62,19 +62,33 @@ class Company:
 
             if len(data_press_release_clean) > 0:
                 pagedata_tag = data_press_release_clean[0]
-                pagedata_attr = data_press_release_clean[1]
-                pagedata_attr_val = data_press_release_clean[2]
 
-                clean_press_release = full_press_release.find(
-                    pagedata_tag, {pagedata_attr: pagedata_attr_val}
-                )
+                if len(data_press_release_clean) > 1:
+                    pagedata_attr = data_press_release_clean[1]
+
+                    if len(data_press_release_clean) > 2:
+                        pagedata_attr_val = data_press_release_clean[2]
+
+                        clean_press_release = full_press_release.find(
+                            pagedata_tag, {pagedata_attr: pagedata_attr_val}
+                        )
+                    else:
+                        clean_press_release = full_press_release.find(
+                            pagedata_tag
+                        ).find(pagedata_attr)
+                else:
+                    clean_press_release = full_press_release.find(pagedata_tag)
 
                 no_press_release_teaser = True
 
             if self.ticker == "tsla":
                 clean_press_release = clean_press_release.find_all("div")[2].contents[0]
-            elif self.ticker == "nvda" or self.ticker == "fb":
+            elif self.ticker == "nvda" or self.ticker == "fb" or self.ticker == "lin":
                 clean_press_release = clean_press_release.contents[0]
+
+            if self.ticker == "lin":
+                clean_press_release = clean_press_release.split("Linde")[1]
+                clean_press_release = "Linde" + clean_press_release
 
             if no_press_release_teaser:
                 clean_press_release = clean_press_release.lstrip().rstrip()
@@ -92,14 +106,18 @@ class Company:
 
             if len(data_press_release_title) > 0:
                 pagedata_tag = data_press_release_title[0]
-                pagedata_attr = data_press_release_title[1]
-                pagedata_attr_val = data_press_release_title[2]
+                if len(data_press_release_title) > 1:
+                    pagedata_attr = data_press_release_title[1]
+                    if len(data_press_release_title) > 2:
+                        pagedata_attr_val = data_press_release_title[2]
 
             if self.ticker == "tsla":
                 pagedata_tag_two = data_press_release_title[3]
 
             # Parsing
-            if len(data_press_release_title) > 0:
+            if len(data_press_release_title) == 1:
+                title = press_release.find(pagedata_tag)
+            elif len(data_press_release_title) > 2:
                 title = press_release.find(
                     pagedata_tag, {pagedata_attr: pagedata_attr_val}
                 )
@@ -113,12 +131,13 @@ class Company:
 
             if self.ticker == "jnj":
                 title = title.contents[1].contents[0]
-            elif self.ticker != "goog":
-                title = title.contents[0]
-
-            if self.ticker == "goog":
+            elif self.ticker == "goog":
                 carriage_index = title.index("\n")
                 title = title[:carriage_index] + title[carriage_index + 18 :]
+            elif self.ticker == "lin":
+                title = title.contents[0].contents[0]
+            else:
+                title = title.contents[0]
 
             title = title.lstrip().rstrip()
 
@@ -139,21 +158,34 @@ class Company:
         ]
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
-            pagedata_tag = pagedata.company_dict[self.ticker]["press_release_date"][0]
-            pagedata_attr = pagedata.company_dict[self.ticker]["press_release_date"][1]
-            pagedata_attr_val = pagedata.company_dict[self.ticker][
+
+            data_press_release_date = pagedata.company_dict[self.ticker][
                 "press_release_date"
-            ][2]
+            ]
 
-            if self.ticker == "tsla" or self.ticker == "fb":
-                pagedata_tag_two = pagedata.company_dict[self.ticker][
-                    "press_release_date"
-                ][3]
+            if len(data_press_release_date) > 0:
+                pagedata_tag = data_press_release_date[0]
 
-            date = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
+                if len(data_press_release_date) > 1:
+                    pagedata_attr = data_press_release_date[1]
 
-            if self.ticker == "tsla" or self.ticker == "fb":
-                date = date.find(pagedata_tag_two)
+                    if len(data_press_release_date) > 2:
+                        pagedata_attr_val = data_press_release_date[2]
+
+                        if len(data_press_release_date) > 3:
+                            pagedata_tag_two = data_press_release_date[3]
+
+                            date = press_release.find(
+                                pagedata_tag, {pagedata_attr: pagedata_attr_val}
+                            ).find(pagedata_tag_two)
+                        else:
+                            date = press_release.find(
+                                pagedata_tag, {pagedata_attr: pagedata_attr_val}
+                            )
+                    else:
+                        date = press_release.find(pagedata_tag).find(pagedata_attr)
+                else:
+                    date = press_release.find(pagedata_tag)
 
             if self.ticker == "jnj":
                 date = date.contents[1]
@@ -197,7 +229,7 @@ class Company:
         for i in range(len(self.full_press_releases)):
             print(self.dates[i], "-", self.titles[i])
             if len(self.clean_press_releases[0]) > 0:
-                print(self.clean_press_releases[i])
+                print(self.clean_press_releases[i] + "\n")
             print("Link:", self.links[i])
             print("-----", end="\n" * 2)
         print("------------- #### END ", self.ticker, "#### -----------------")

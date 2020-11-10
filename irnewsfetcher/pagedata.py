@@ -66,6 +66,19 @@ johnson_and_johnson = {
     ],
 }
 
+linde = {
+    "rss": False,
+    "company_name": "Linde plc",
+    "url_press": "https://www.linde.com/news-media",
+    "url_press_prefix_noAcc": "",
+    "url_press_prefix_wAcc": "",
+    "main_id": "main",
+    "press_releases": ["article"],
+    "press_release_clean": ["div", "p"],
+    "press_release_title": ["h5"],
+    "press_release_date": ["p"],
+}
+
 microsoft = {
     "rss": False,
     "company_name": "Microsoft Corporation",
@@ -161,6 +174,7 @@ company_dict = {
     "fb": facebook,
     "goog": alphabet,
     "jnj": johnson_and_johnson,
+    "lin": linde,
     "msft": microsoft,
     "nflx": netflix,
     "nvda": nvidia,
