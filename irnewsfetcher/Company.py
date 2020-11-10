@@ -147,18 +147,8 @@ class Company:
         return titles
 
     def parse_dates(self) -> list:
-        days = [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-        ]
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
-
             data_press_release_date = pagedata.company_dict[self.ticker][
                 "press_release_date"
             ]
@@ -187,16 +177,16 @@ class Company:
                 else:
                     date = press_release.find(pagedata_tag)
 
-            if self.ticker == "jnj":
-                date = date.contents[1]
-            else:
+            if len(date) == 1:
                 date = date.contents[0]
+            else:
+                date = date.contents[1]
 
             date = date.lstrip().rstrip()
 
-            is_day_first = False
-            if self.ticker == "ul":
-                is_day_first = True
+            is_day_first = pagedata.company_dict[self.ticker][
+                "press_release_date_day_first"
+            ]
 
             date = parser.parse(date, dayfirst=is_day_first)
 
