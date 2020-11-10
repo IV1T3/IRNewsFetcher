@@ -54,7 +54,7 @@ Please open a new branch for each company you contribute.
 - irnewsfetcher/main.py
   - Add the companies' ticker symbol to the *valid_companies* dictionary.
 - irnewsfetcher/pagedata.py
-  - "rss": Set the boolean, whether you receive information through an RSS or not.
+  - "rss": Set the boolean, whether you receive information through an RSS or not. However, RSS is currently not supported. Currently, this has to be always *False*.
   - "company_name": Add the full company name to be displayed.
   - "url_press": Add the main URL of the press releases.
   - "url_press_prefix_noAcc": In case links are only relative paths, include the prefix here. This is only for non-accounting information. If links are non-relative, leave empty.
