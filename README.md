@@ -64,6 +64,7 @@ Please open a new branch for each company you contribute.
   - "press_release_clean": Add the HTML-tag, -attribute and -attribute-value to select the teaser content of a single press release (no date, no title).
   - "press_release_title": Add the HTML-tag, -attribute and -attribute-value to select the press releases' title.
   - "press_release_date": Add the HTML-tag, -attribute and -attribute-value to select the press releases' date.
+  - "press_release_date_day_first": *True* if day in date first (e.g. DD/MM/YYY), *False* if month in date first (e.g. MM/DD/YYY).
   - Add the ticker symbol and the respective dictionary variable to the *company_dict* dictionary.
 - README.md: Add the company to the supported companies table.
 
