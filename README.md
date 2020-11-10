@@ -46,7 +46,7 @@ $ python3 irnewsfetcher/main.py --AAPL --TSLA --weeks=2
 
 ## Contributing
 
-If you would like to contribute to *IRNewsFetcher* by adding companies, you have to follow the instructions below.
+If you like to contribute to *IRNewsFetcher* by adding companies, you have to follow the instructions below.
 Please open a new branch for each company you contribute.
 
 - irnewsfetcher/argparser.py
