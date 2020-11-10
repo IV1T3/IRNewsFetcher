@@ -2,7 +2,7 @@ alphabet = {
     "rss": False,
     "company_name": "Alphabet Inc.",
     "url_press": "https://abc.xyz/investor",
-    "url_press_prefix_noAcc": "https://abc.xyz",
+    "url_press_prefix_noAcc": "https://abc.xyz/investor/",
     "url_press_prefix_wAcc": "https://abc.xyz",
     "main_id": "news",
     "press_releases": ["li"],

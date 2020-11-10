@@ -211,9 +211,18 @@ class Company:
     def parse_links(self) -> list:
         links = []
         for press_release in self.full_press_releases:
-            link = press_release.find("a")["href"]
+            init_link = press_release.find("a")["href"]
 
-            link = pagedata.company_dict[self.ticker]["url_press_prefix_noAcc"] + link
+            if "earnings" in init_link:
+                link = (
+                    pagedata.company_dict[self.ticker]["url_press_prefix_wAcc"]
+                    + init_link
+                )
+            else:
+                link = (
+                    pagedata.company_dict[self.ticker]["url_press_prefix_noAcc"]
+                    + init_link
+                )
 
             if link[0] == "/":
                 link = (
