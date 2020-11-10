@@ -21,6 +21,7 @@ Currently, these companies are added to *IRNewsFetcher*:
 | Company           | Ticker |
 |-------------------|--------|
 | Apple             | AAPL   |
+| Facebook          | FB     |
 | Alphabet          | GOOG   |
 | Johnson & Johnson | JNJ    |
 | Microsoft         | MSFT   |

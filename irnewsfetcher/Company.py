@@ -73,7 +73,7 @@ class Company:
 
             if self.ticker == "tsla":
                 clean_press_release = clean_press_release.find_all("div")[2].contents[0]
-            elif self.ticker == "nvda":
+            elif self.ticker == "nvda" or self.ticker == "fb":
                 clean_press_release = clean_press_release.contents[0]
 
             if no_press_release_teaser:
@@ -108,7 +108,7 @@ class Company:
 
             if self.ticker == "tsla":
                 title = title.find(pagedata_tag_two)
-            elif self.ticker == "nvda":
+            elif self.ticker == "nvda" or self.ticker == "fb":
                 title = title.find("a")
 
             if self.ticker == "jnj":
@@ -145,14 +145,14 @@ class Company:
                 "press_release_date"
             ][2]
 
-            if self.ticker == "tsla":
+            if self.ticker == "tsla" or self.ticker == "fb":
                 pagedata_tag_two = pagedata.company_dict[self.ticker][
                     "press_release_date"
                 ][3]
 
             date = press_release.find(pagedata_tag, {pagedata_attr: pagedata_attr_val})
 
-            if self.ticker == "tsla":
+            if self.ticker == "tsla" or self.ticker == "fb":
                 date = date.find(pagedata_tag_two)
 
             if self.ticker == "jnj":

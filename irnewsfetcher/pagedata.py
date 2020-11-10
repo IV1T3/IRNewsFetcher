@@ -28,6 +28,23 @@ apple = {
     ],
 }
 
+facebook = {
+    "rss": False,
+    "company_name": "Facebook Inc.",
+    "url_press": "https://about.fb.com/news/",
+    "url_press_prefix_noAcc": "",
+    "url_press_prefix_wAcc": "",
+    "main_id": "posts",
+    "press_releases": ["div", "class", "uk-grid"],
+    "press_release_clean": ["div", "class", "article-excerpt-body"],
+    "press_release_title": [
+        "h3",
+        "class",
+        "entry-title uk-margin-remove-top ui-heading2",
+    ],
+    "press_release_date": ["span", "class", "posted-on", "time"],
+}
+
 johnson_and_johnson = {
     "rss": False,
     "company_name": "Johnson & Johnson",
@@ -141,6 +158,7 @@ unilever = {
 
 company_dict = {
     "aapl": apple,
+    "fb": facebook,
     "goog": alphabet,
     "jnj": johnson_and_johnson,
     "msft": microsoft,
