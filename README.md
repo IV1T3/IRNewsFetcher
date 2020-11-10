@@ -67,4 +67,4 @@ Please open a new branch for each company you contribute.
   - Add the ticker symbol and the respective dictionary variable to the *company_dict* dictionary.
 - README.md: Add the company to the supported companies table.
 
-In case you will experience some bugs, you would probably have to fix these in *irnewsfetcher/Company.py*.
+In case you experience some bugs, you would probably have to fix these in *irnewsfetcher/Company.py*.
