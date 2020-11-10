@@ -51,6 +51,13 @@ def init_argparse() -> argparse.ArgumentParser:
         help="Fetches new press releases from Microsoft Corporation.",
     )
     my_parser.add_argument(
+        "--NFLX",
+        action="store_true",
+        default=0,
+        dest="nflx",
+        help="Fetches new press releases from Netflix, Inc.",
+    )
+    my_parser.add_argument(
         "--NVDA",
         action="store_true",
         default=0,

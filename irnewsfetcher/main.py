@@ -25,7 +25,7 @@ def display_structured_press_releases(press_releases: list, weeks: int) -> None:
 if __name__ == "__main__":
     args = argparser.get_args()
 
-    valid_companies = ["aapl", "goog", "jnj", "msft", "nvda", "tsla", "ul"]
+    valid_companies = ["aapl", "goog", "jnj", "msft", "nflx", "nvda", "tsla", "ul"]
     all_structured_press_releases = []
 
     for arg in vars(args):

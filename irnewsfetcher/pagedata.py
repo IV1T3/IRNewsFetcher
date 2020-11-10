@@ -70,6 +70,19 @@ microsoft = {
     ],
 }
 
+netflix = {
+    "rss": False,
+    "company_name": "Netflix, Inc.",
+    "url_press": "https://www.netflixinvestor.com/investor-news-and-events/financial-releases/default.aspx",
+    "url_press_prefix_noAcc": "",
+    "url_press_prefix_wAcc": "",
+    "main_id": "maincontent",
+    "press_releases": ["div", "class", "module_item"],
+    "press_release_clean": [],
+    "press_release_title": ["a", "class", "module_headline-link"],
+    "press_release_date": ["span", "class", "module_date-text"],
+}
+
 nvidia = {
     "rss": False,
     "company_name": "NVIDIA Corporation",
@@ -131,6 +144,7 @@ company_dict = {
     "goog": alphabet,
     "jnj": johnson_and_johnson,
     "msft": microsoft,
+    "nflx": netflix,
     "nvda": nvidia,
     "tsla": tesla,
     "ul": unilever,
