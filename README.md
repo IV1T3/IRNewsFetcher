@@ -24,6 +24,7 @@ Currently, these companies are added to *IRNewsFetcher*:
 | Alphabet          | GOOG   |
 | Johnson & Johnson | JNJ    |
 | Microsoft         | MSFT   |
+| Netflix           | NFLX   |
 | Nvidia            | NVDA   |
 | Tesla             | TSLA   |
 | Unilever          | UL     |
