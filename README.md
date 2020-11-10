@@ -18,18 +18,19 @@ $ pip3 install -r requirements.txt
 
 Currently, these companies are added to *IRNewsFetcher*:
 
-| Company           | Ticker |
-|-------------------|--------|
-| Apple             | AAPL   |
-| Facebook          | FB     |
-| Alphabet          | GOOG   |
-| Johnson & Johnson | JNJ    |
-| Linde             | LIN    |
-| Microsoft         | MSFT   |
-| Netflix           | NFLX   |
-| Nvidia            | NVDA   |
-| Tesla             | TSLA   |
-| Unilever          | UL     |
+| Company            | Ticker |
+|--------------------|--------|
+| Alphabet           | GOOG   |
+| Apple              | AAPL   |
+| Berkshire Hathaway | BRK    |
+| Facebook           | FB     |
+| Johnson & Johnson  | JNJ    |
+| Linde              | LIN    |
+| Microsoft          | MSFT   |
+| Netflix            | NFLX   |
+| Nvidia             | NVDA   |
+| Tesla              | TSLA   |
+| Unilever           | UL     |
 
 
 To see all press releases of all currently implemented companies, run

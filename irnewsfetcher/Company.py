@@ -25,7 +25,10 @@ class Company:
         header = {"User-Agent": "Mozilla/5.0"}
         page = requests.get(url_press, headers=header)
         soup = BeautifulSoup(page.content, "html.parser")
-        results = soup.find(id=selected_element_id)
+        if selected_element_id == "":
+            results = soup.find("body")
+        else:
+            results = soup.find(id=selected_element_id)
 
         return results
 
@@ -106,13 +109,15 @@ class Company:
 
             if len(data_press_release_title) > 0:
                 pagedata_tag = data_press_release_title[0]
+
                 if len(data_press_release_title) > 1:
                     pagedata_attr = data_press_release_title[1]
+
                     if len(data_press_release_title) > 2:
                         pagedata_attr_val = data_press_release_title[2]
 
-            if self.ticker == "tsla":
-                pagedata_tag_two = data_press_release_title[3]
+                        if len(data_press_release_title) > 3:
+                            pagedata_tag_two = data_press_release_title[3]
 
             # Parsing
             if len(data_press_release_title) == 1:
@@ -187,6 +192,9 @@ class Company:
             is_day_first = pagedata.company_dict[self.ticker][
                 "press_release_date_day_first"
             ]
+
+            if "at" in date:
+                date = date.split("at")[0]
 
             date = parser.parse(date, dayfirst=is_day_first)
 

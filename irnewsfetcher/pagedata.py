@@ -30,6 +30,20 @@ apple = {
     "press_release_date_day_first": False,
 }
 
+berkshire_hathaway = {
+    "rss": False,
+    "company_name": "Berkshire Hathaway Inc.",
+    "url_press": "https://www.berkshirehathaway.com/news/2020news.html",
+    "url_press_prefix_noAcc": "https://www.berkshirehathaway.com/news/",
+    "url_press_prefix_wAcc": "https://www.berkshirehathaway.com/news/",
+    "main_id": "",
+    "press_releases": ["dl"],
+    "press_release_clean": [],
+    "press_release_title": ["dd"],
+    "press_release_date": ["dt", "a"],
+    "press_release_date_day_first": False,
+}
+
 facebook = {
     "rss": False,
     "company_name": "Facebook Inc.",
@@ -181,6 +195,7 @@ unilever = {
 
 company_dict = {
     "aapl": apple,
+    "brk": berkshire_hathaway,
     "fb": facebook,
     "goog": alphabet,
     "jnj": johnson_and_johnson,

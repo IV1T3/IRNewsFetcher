@@ -26,6 +26,7 @@ if __name__ == "__main__":
 
     valid_companies = [
         "aapl",
+        "brk",
         "fb",
         "goog",
         "jnj",
