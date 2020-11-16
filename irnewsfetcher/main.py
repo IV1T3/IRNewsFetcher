@@ -2,6 +2,7 @@ import time
 
 import argparser
 import pagedata
+
 from Company import Company
 
 
@@ -26,10 +27,11 @@ if __name__ == "__main__":
     args = argparser.get_args()
 
     company_dict = {
+        "goog": pagedata.alphabet,
         "aapl": pagedata.apple,
         "brk": pagedata.berkshire_hathaway,
         "fb": pagedata.facebook,
-        "goog": pagedata.alphabet,
+        "ilmn": pagedata.illumina,
         "jnj": pagedata.johnson_and_johnson,
         "lin": pagedata.linde,
         "msft": pagedata.microsoft,

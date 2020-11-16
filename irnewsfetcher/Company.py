@@ -98,120 +98,136 @@ class Company:
 
     def parse_titles(self) -> list:
         titles = []
+
         for press_release in self.full_press_releases:
+
             data_press_release_title = self.company_data["press_release_title"]
 
-            if len(data_press_release_title) > 0:
+            if len(data_press_release_title) == 2:
                 pagedata_tag = data_press_release_title[0]
-
-                if len(data_press_release_title) > 1:
-                    pagedata_attr = data_press_release_title[1]
-
-                    if len(data_press_release_title) > 2:
-                        pagedata_attr_val = data_press_release_title[2]
-
-                        if len(data_press_release_title) > 3:
-                            pagedata_tag_two = data_press_release_title[3]
-
-            # Parsing
-            if len(data_press_release_title) == 1:
-                title = press_release.find(pagedata_tag)
-            elif len(data_press_release_title) > 2:
-                title = press_release.find(
-                    pagedata_tag, {pagedata_attr: pagedata_attr_val}
-                )
+                pagedata_index = data_press_release_title[1]
             else:
-                title = list(press_release)[2]
+                if len(data_press_release_title) > 0:
+                    pagedata_tag = data_press_release_title[0]
 
-            if self.ticker == "tsla":
-                title = title.find(pagedata_tag_two)
-            elif self.ticker == "nvda" or self.ticker == "fb":
-                title = title.find("a")
+                    if len(data_press_release_title) > 1:
+                        pagedata_attr = data_press_release_title[1]
 
-            if self.ticker == "jnj":
-                title = title.contents[1].contents[0]
-            elif self.ticker == "goog":
-                carriage_index = title.index("\n")
-                title = title[:carriage_index] + title[carriage_index + 18 :]
-            elif self.ticker == "lin":
-                title = title.contents[0].contents[0]
-            else:
-                title = title.contents[0]
+                        if len(data_press_release_title) > 2:
+                            pagedata_attr_val = data_press_release_title[2]
 
-            title = title.lstrip().rstrip()
+                            if len(data_press_release_title) > 3:
+                                pagedata_tag_two = data_press_release_title[3]
 
-            # Post-Parsing
-            titles.append(title)
+            if not press_release.find("th"):
+                # Parsing
+                if len(data_press_release_title) == 1:
+                    title = press_release.find(pagedata_tag)
+                elif len(data_press_release_title) == 2:
+                    title = press_release.findAll(pagedata_tag)[pagedata_index]
+                elif len(data_press_release_title) > 2:
+                    title = press_release.find(
+                        pagedata_tag, {pagedata_attr: pagedata_attr_val}
+                    )
+                else:
+                    title = list(press_release)[2]
+
+                if self.ticker == "tsla":
+                    title = title.find(pagedata_tag_two)
+                elif (
+                    self.ticker == "nvda"
+                    or self.ticker == "fb"
+                    or self.ticker == "ilmn"
+                ):
+                    title = title.find("a")
+
+                if self.ticker == "jnj":
+                    title = title.contents[1].contents[0]
+                elif self.ticker == "goog":
+                    carriage_index = title.index("\n")
+                    title = title[:carriage_index] + title[carriage_index + 18 :]
+                elif self.ticker == "lin":
+                    title = title.contents[0].contents[0]
+                else:
+                    title = title.contents[0]
+
+                title = title.lstrip().rstrip()
+                title = "".join(list(map(lambda x: " " if x == "\n" else x, title)))
+
+                # Post-Parsing
+                titles.append(title)
 
         return titles
 
     def parse_dates(self) -> list:
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
-            data_press_release_date = self.company_data["press_release_date"]
+            if not press_release.find("th"):
+                data_press_release_date = self.company_data["press_release_date"]
 
-            if len(data_press_release_date) > 0:
-                pagedata_tag = data_press_release_date[0]
+                if len(data_press_release_date) > 0:
+                    pagedata_tag = data_press_release_date[0]
 
-                if len(data_press_release_date) > 1:
-                    pagedata_attr = data_press_release_date[1]
+                    if len(data_press_release_date) > 1:
+                        pagedata_attr = data_press_release_date[1]
 
-                    if len(data_press_release_date) > 2:
-                        pagedata_attr_val = data_press_release_date[2]
+                        if len(data_press_release_date) > 2:
+                            pagedata_attr_val = data_press_release_date[2]
 
-                        if len(data_press_release_date) > 3:
-                            pagedata_tag_two = data_press_release_date[3]
+                            if len(data_press_release_date) > 3:
+                                pagedata_tag_two = data_press_release_date[3]
 
-                            date = press_release.find(
-                                pagedata_tag, {pagedata_attr: pagedata_attr_val}
-                            ).find(pagedata_tag_two)
+                                date = press_release.find(
+                                    pagedata_tag, {pagedata_attr: pagedata_attr_val}
+                                ).find(pagedata_tag_two)
+                            else:
+                                date = press_release.find(
+                                    pagedata_tag, {pagedata_attr: pagedata_attr_val}
+                                )
                         else:
-                            date = press_release.find(
-                                pagedata_tag, {pagedata_attr: pagedata_attr_val}
-                            )
+                            date = press_release.find(pagedata_tag).find(pagedata_attr)
                     else:
-                        date = press_release.find(pagedata_tag).find(pagedata_attr)
+                        date = press_release.find(pagedata_tag)
+
+                if len(date) == 1:
+                    date = date.contents[0]
                 else:
-                    date = press_release.find(pagedata_tag)
+                    date = date.contents[1]
 
-            if len(date) == 1:
-                date = date.contents[0]
-            else:
-                date = date.contents[1]
+                date = date.lstrip().rstrip()
 
-            date = date.lstrip().rstrip()
+                is_day_first = self.company_data["press_release_date_day_first"]
 
-            is_day_first = self.company_data["press_release_date_day_first"]
+                if "at" in date:
+                    date = date.split("at")[0]
 
-            if "at" in date:
-                date = date.split("at")[0]
+                date = parser.parse(date, dayfirst=is_day_first)
 
-            date = parser.parse(date, dayfirst=is_day_first)
+                timestamp = datetime.datetime.timestamp(date)
+                new_date = datetime.datetime.fromtimestamp(timestamp).strftime(
+                    "%A, %B %d, %Y"
+                )
 
-            timestamp = datetime.datetime.timestamp(date)
-            new_date = datetime.datetime.fromtimestamp(timestamp).strftime(
-                "%A, %B %d, %Y"
-            )
-
-            dates.append(new_date)
-            timestamps.append(timestamp)
+                dates.append(new_date)
+                timestamps.append(timestamp)
 
         return dates, timestamps
 
     def parse_links(self) -> list:
         links = []
         for press_release in self.full_press_releases:
-            init_link = press_release.find("a")["href"]
+            if not press_release.find("th"):
+                init_link = press_release.find("a")["href"]
 
-            if "earnings" in init_link:
-                link = self.company_data["url_press_prefix_wAcc"] + init_link
-            else:
-                link = self.company_data["url_press_prefix_noAcc"] + init_link
+                if "earnings" in init_link:
+                    link = self.company_data["url_press_prefix_wAcc"] + init_link
+                else:
+                    link = self.company_data["url_press_prefix_noAcc"] + init_link
 
-            if link[0] == "/":
-                link = self.company_data["url_press_prefix_wAcc"] + link
+                if link[0] == "/":
+                    link = self.company_data["url_press_prefix_wAcc"] + link
 
-            links.append(link)
+                links.append(link)
         return links
 
     def display_news(self) -> None:

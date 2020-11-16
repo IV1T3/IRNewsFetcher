@@ -24,6 +24,7 @@ Currently, these companies are added to *IRNewsFetcher*:
 | Apple              | AAPL   |
 | Berkshire Hathaway | BRK    |
 | Facebook           | FB     |
+| Illumina           | ILMN   |
 | Johnson & Johnson  | JNJ    |
 | Linde              | LIN    |
 | Microsoft          | MSFT   |

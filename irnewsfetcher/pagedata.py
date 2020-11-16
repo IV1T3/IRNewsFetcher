@@ -39,7 +39,7 @@ berkshire_hathaway = {
     "main_id": "",
     "press_releases": ["dl"],
     "press_release_clean": [],
-    "press_release_title": ["dd"],
+    "press_release_title": ["dd", 0],
     "press_release_date": ["dt", "a"],
     "press_release_date_day_first": False,
 }
@@ -59,6 +59,20 @@ facebook = {
         "entry-title uk-margin-remove-top ui-heading2",
     ],
     "press_release_date": ["span", "class", "posted-on", "time"],
+    "press_release_date_day_first": False,
+}
+
+illumina = {
+    "rss": False,
+    "company_name": "Illumina, Inc.",
+    "url_press": "https://www.illumina.com/company/news-center/press-releases.html",
+    "url_press_prefix_noAcc": "https://www.illumina.com",
+    "url_press_prefix_wAcc": "https://www.illumina.com",
+    "main_id": "mainContent",
+    "press_releases": ["tr"],
+    "press_release_clean": [],
+    "press_release_title": ["td", 1],
+    "press_release_date": ["td"],
     "press_release_date_day_first": False,
 }
 
@@ -93,7 +107,7 @@ linde = {
     "main_id": "main",
     "press_releases": ["article"],
     "press_release_clean": ["div", "p"],
-    "press_release_title": ["h5"],
+    "press_release_title": ["h5", 0],
     "press_release_date": ["p"],
     "press_release_date_day_first": False,
 }

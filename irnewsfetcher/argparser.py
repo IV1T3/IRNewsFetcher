@@ -51,6 +51,13 @@ def init_argparse() -> argparse.ArgumentParser:
         help="Fetches new press releases from Alphabet Inc.",
     )
     my_parser.add_argument(
+        "--ILMN",
+        action="store_true",
+        default=0,
+        dest="ilmn",
+        help="Fetches new press releases from Illumina, Inc.",
+    )
+    my_parser.add_argument(
         "--JNJ",
         action="store_true",
         default=0,
