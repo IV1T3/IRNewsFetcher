@@ -1,8 +1,7 @@
+import bs4
 import datetime
 
 from typing import Tuple
-
-import bs4
 
 from PRDate import PRDate
 from PRDescription import PRDescription
@@ -41,3 +40,16 @@ class PressRelease(object):
         description_object = PRDescription(self.company_data, self.press_release)
 
         return description_object.get_description()
+
+    def get_structured_press_release(self) -> list:
+        structured_press_release = [
+            self.company_data["ticker"],
+            self.timestamp,
+            self.title,
+            self.date,
+            self.link,
+            self.description,
+            self.company_data["company_name"],
+        ]
+
+        return structured_press_release
