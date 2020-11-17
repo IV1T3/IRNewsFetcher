@@ -1,37 +1,25 @@
+import bs4
 import datetime
-import requests
+import dateutil.parser
 
-from bs4 import BeautifulSoup
-from dateutil import parser
+import PageContent
+import PressRelease
 
 
-class Company:
+class Company(object):
     def __init__(self, ticker: str, company_data: dict) -> None:
         self.ticker = ticker
         self.company_data = company_data
-        self.page_content = self.fetch_page_content()
+        self.page_content = PageContent.PageContent(ticker, company_data)
+
         self.full_press_releases = self.parse_all_press_releases()
         self.clean_press_releases = self.clean_all_press_releases()
         self.titles = self.parse_titles()
         self.dates, self.timestamps = self.parse_dates()
         self.links = self.parse_links()
 
-    def fetch_page_content(self) -> BeautifulSoup:
-        url_press = self.company_data["url_press"]
-        selected_element_id = self.company_data["main_id"]
-
-        header = {"User-Agent": "Mozilla/5.0"}
-        page = requests.get(url_press, headers=header)
-        soup = BeautifulSoup(page.content, "html.parser")
-        if selected_element_id == "":
-            results = soup.find("body")
-        else:
-            results = soup.find(id=selected_element_id)
-
-        return results
-
-    def parse_all_press_releases(self) -> BeautifulSoup:
-        page_content = self.page_content
+    def parse_all_press_releases(self) -> bs4.BeautifulSoup:
+        page_content = self.page_content.get_page_content()
 
         data_press_releases = self.company_data["press_releases"]
 
@@ -49,7 +37,7 @@ class Company:
 
         return press_releases
 
-    def clean_all_press_releases(self) -> BeautifulSoup:
+    def clean_all_press_releases(self) -> bs4.BeautifulSoup:
         clean_press_releases = []
 
         for full_press_release in self.full_press_releases:
@@ -101,61 +89,13 @@ class Company:
 
         for press_release in self.full_press_releases:
 
-            data_press_release_title = self.company_data["press_release_title"]
+            press_release_object = PressRelease.PressRelease(
+                self.company_data, press_release
+            )
+            title = press_release_object.title
 
-            if len(data_press_release_title) == 2:
-                pagedata_tag = data_press_release_title[0]
-                pagedata_index = data_press_release_title[1]
-            else:
-                if len(data_press_release_title) > 0:
-                    pagedata_tag = data_press_release_title[0]
-
-                    if len(data_press_release_title) > 1:
-                        pagedata_attr = data_press_release_title[1]
-
-                        if len(data_press_release_title) > 2:
-                            pagedata_attr_val = data_press_release_title[2]
-
-                            if len(data_press_release_title) > 3:
-                                pagedata_tag_two = data_press_release_title[3]
-
-            if not press_release.find("th"):
-                # Parsing
-                if len(data_press_release_title) == 1:
-                    title = press_release.find(pagedata_tag)
-                elif len(data_press_release_title) == 2:
-                    title = press_release.findAll(pagedata_tag)[pagedata_index]
-                elif len(data_press_release_title) > 2:
-                    title = press_release.find(
-                        pagedata_tag, {pagedata_attr: pagedata_attr_val}
-                    )
-                else:
-                    title = list(press_release)[2]
-
-                if self.ticker == "tsla":
-                    title = title.find(pagedata_tag_two)
-                elif (
-                    self.ticker == "nvda"
-                    or self.ticker == "fb"
-                    or self.ticker == "ilmn"
-                ):
-                    title = title.find("a")
-
-                if self.ticker == "jnj":
-                    title = title.contents[1].contents[0]
-                elif self.ticker == "goog":
-                    carriage_index = title.index("\n")
-                    title = title[:carriage_index] + title[carriage_index + 18 :]
-                elif self.ticker == "lin":
-                    title = title.contents[0].contents[0]
-                else:
-                    title = title.contents[0]
-
-                title = title.lstrip().rstrip()
-                title = "".join(list(map(lambda x: " " if x == "\n" else x, title)))
-
-                # Post-Parsing
-                titles.append(title)
+            # Post-Parsing
+            titles.append(title)
 
         return titles
 
@@ -201,7 +141,7 @@ class Company:
                 if "at" in date:
                     date = date.split("at")[0]
 
-                date = parser.parse(date, dayfirst=is_day_first)
+                date = dateutil.parser.parse(date, dayfirst=is_day_first)
 
                 timestamp = datetime.datetime.timestamp(date)
                 new_date = datetime.datetime.fromtimestamp(timestamp).strftime(
@@ -216,28 +156,14 @@ class Company:
     def parse_links(self) -> list:
         links = []
         for press_release in self.full_press_releases:
-            if not press_release.find("th"):
-                init_link = press_release.find("a")["href"]
 
-                if "earnings" in init_link:
-                    link = self.company_data["url_press_prefix_wAcc"] + init_link
-                else:
-                    link = self.company_data["url_press_prefix_noAcc"] + init_link
+            press_release_object = PressRelease.PressRelease(
+                self.company_data, press_release
+            )
+            link = press_release_object.link
 
-                if link[0] == "/":
-                    link = self.company_data["url_press_prefix_wAcc"] + link
-
-                links.append(link)
+            links.append(link)
         return links
-
-    def display_news(self) -> None:
-        for i in range(len(self.full_press_releases)):
-            print(self.dates[i], "-", self.titles[i])
-            if len(self.clean_press_releases[0]) > 0:
-                print(self.clean_press_releases[i] + "\n")
-            print("Link:", self.links[i])
-            print("-----", end="\n" * 2)
-        print("------------- #### END ", self.ticker, "#### -----------------")
 
     def get_structured_press_releases(self) -> list:
         structured_press_releases = []

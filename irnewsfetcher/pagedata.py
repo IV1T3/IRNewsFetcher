@@ -1,4 +1,5 @@
 alphabet = {
+    "ticker": "goog",
     "rss": False,
     "company_name": "Alphabet Inc.",
     "url_press": "https://abc.xyz/investor",
@@ -13,6 +14,7 @@ alphabet = {
 }
 
 apple = {
+    "ticker": "aapl",
     "rss": False,
     "company_name": "Apple Inc.",
     "url_press": "https://www.apple.com/newsroom",
@@ -31,6 +33,7 @@ apple = {
 }
 
 berkshire_hathaway = {
+    "ticker": "brk",
     "rss": False,
     "company_name": "Berkshire Hathaway Inc.",
     "url_press": "https://www.berkshirehathaway.com/news/2020news.html",
@@ -45,6 +48,7 @@ berkshire_hathaway = {
 }
 
 facebook = {
+    "ticker": "fb",
     "rss": False,
     "company_name": "Facebook Inc.",
     "url_press": "https://about.fb.com/news/",
@@ -63,6 +67,7 @@ facebook = {
 }
 
 illumina = {
+    "ticker": "ilmn",
     "rss": False,
     "company_name": "Illumina, Inc.",
     "url_press": "https://www.illumina.com/company/news-center/press-releases.html",
@@ -77,6 +82,7 @@ illumina = {
 }
 
 johnson_and_johnson = {
+    "ticker": "jnj",
     "rss": False,
     "company_name": "Johnson & Johnson",
     "url_press": "https://johnsonandjohnson.gcs-web.com/press-releases",
@@ -99,6 +105,7 @@ johnson_and_johnson = {
 }
 
 linde = {
+    "ticker": "lin",
     "rss": False,
     "company_name": "Linde plc",
     "url_press": "https://www.linde.com/news-media",
@@ -113,6 +120,7 @@ linde = {
 }
 
 microsoft = {
+    "ticker": "msft",
     "rss": False,
     "company_name": "Microsoft Corporation",
     "url_press": "https://news.microsoft.com/category/press-releases/",
@@ -135,6 +143,7 @@ microsoft = {
 }
 
 netflix = {
+    "ticker": "nflx",
     "rss": False,
     "company_name": "Netflix, Inc.",
     "url_press": "https://www.netflixinvestor.com/investor-news-and-events/financial-releases/default.aspx",
@@ -149,6 +158,7 @@ netflix = {
 }
 
 nvidia = {
+    "ticker": "nvda",
     "rss": False,
     "company_name": "NVIDIA Corporation",
     "url_press": "https://nvidianews.nvidia.com/news",
@@ -167,6 +177,7 @@ nvidia = {
 }
 
 tesla = {
+    "ticker": "tsla",
     "rss": False,
     "company_name": "Tesla, Inc.",
     "url_press": "https://ir.tesla.com/press",
@@ -190,6 +201,7 @@ tesla = {
 }
 
 unilever = {
+    "ticker": "ul",
     "rss": False,
     "company_name": "Unilever plc",
     "url_press": "https://www.unilever.com/news/press-releases/",
