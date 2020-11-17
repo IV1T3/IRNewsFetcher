@@ -2,7 +2,10 @@ import datetime
 
 from typing import Tuple
 
+import bs4
+
 from PRDate import PRDate
+from PRDescription import PRDescription
 from PRLink import PRLink
 from PRTitle import PRTitle
 
@@ -16,7 +19,7 @@ class PressRelease(object):
         self.link = self.__parse_link()
         self.date, self.timestamp = self.__parse_date_and_timestamp()
 
-        self.description = None
+        self.description = self.__parse_description()
 
     def __parse_title(self) -> str:
         ticker = self.company_data["ticker"]
@@ -33,3 +36,8 @@ class PressRelease(object):
         date_object = PRDate(self.company_data, self.press_release)
 
         return date_object.get_date_and_timestamp()
+
+    def __parse_description(self) -> bs4.BeautifulSoup:
+        description_object = PRDescription(self.company_data, self.press_release)
+
+        return description_object.get_description()
