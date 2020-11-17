@@ -1,6 +1,5 @@
+from datetime import date
 import bs4
-import datetime
-import dateutil.parser
 
 import PageContent
 import PressRelease
@@ -102,54 +101,12 @@ class Company(object):
     def parse_dates(self) -> list:
         dates, timestamps = [], []
         for press_release in self.full_press_releases:
-            if not press_release.find("th"):
-                data_press_release_date = self.company_data["press_release_date"]
 
-                if len(data_press_release_date) > 0:
-                    pagedata_tag = data_press_release_date[0]
-
-                    if len(data_press_release_date) > 1:
-                        pagedata_attr = data_press_release_date[1]
-
-                        if len(data_press_release_date) > 2:
-                            pagedata_attr_val = data_press_release_date[2]
-
-                            if len(data_press_release_date) > 3:
-                                pagedata_tag_two = data_press_release_date[3]
-
-                                date = press_release.find(
-                                    pagedata_tag, {pagedata_attr: pagedata_attr_val}
-                                ).find(pagedata_tag_two)
-                            else:
-                                date = press_release.find(
-                                    pagedata_tag, {pagedata_attr: pagedata_attr_val}
-                                )
-                        else:
-                            date = press_release.find(pagedata_tag).find(pagedata_attr)
-                    else:
-                        date = press_release.find(pagedata_tag)
-
-                if len(date) == 1:
-                    date = date.contents[0]
-                else:
-                    date = date.contents[1]
-
-                date = date.lstrip().rstrip()
-
-                is_day_first = self.company_data["press_release_date_day_first"]
-
-                if "at" in date:
-                    date = date.split("at")[0]
-
-                date = dateutil.parser.parse(date, dayfirst=is_day_first)
-
-                timestamp = datetime.datetime.timestamp(date)
-                new_date = datetime.datetime.fromtimestamp(timestamp).strftime(
-                    "%A, %B %d, %Y"
-                )
-
-                dates.append(new_date)
-                timestamps.append(timestamp)
+            press_release_object = PressRelease.PressRelease(
+                self.company_data, press_release
+            )
+            dates.append(press_release_object.date)
+            timestamps.append(press_release_object.timestamp)
 
         return dates, timestamps
 
