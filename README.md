@@ -31,6 +31,7 @@ Currently, these companies are added to *IRNewsFetcher*:
 | Netflix            | NFLX   |
 | Nvidia             | NVDA   |
 | Tesla              | TSLA   |
+| Texas Instruments  | TXN    |
 | Unilever           | UL     |
 
 To see all press releases of all currently implemented companies, run

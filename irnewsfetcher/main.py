@@ -38,6 +38,7 @@ if __name__ == "__main__":
         "nflx": pagedata.netflix,
         "nvda": pagedata.nvidia,
         "tsla": pagedata.tesla,
+        "txn": pagedata.texas_instruments,
         "ul": pagedata.unilever,
     }
 

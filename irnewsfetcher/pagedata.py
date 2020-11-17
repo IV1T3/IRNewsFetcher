@@ -200,6 +200,21 @@ tesla = {
     "press_release_date_day_first": False,
 }
 
+texas_instruments = {
+    "ticker": "txn",
+    "rss": False,
+    "company_name": "Texas Instruments Incorporated",
+    "url_press": "https://investor.ti.com/investor-news",
+    "url_press_prefix_noAcc": "https://investor.ti.com",
+    "url_press_prefix_wAcc": "https://investor.ti.com",
+    "main_id": "content-header",
+    "press_releases": ["tr"],
+    "press_release_clean": [],
+    "press_release_title": ["td", 1],
+    "press_release_date": ["td"],
+    "press_release_date_day_first": False,
+}
+
 unilever = {
     "ticker": "ul",
     "rss": False,

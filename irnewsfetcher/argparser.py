@@ -100,6 +100,13 @@ def init_argparse() -> argparse.ArgumentParser:
         help="Fetches new press releases from Tesla, Inc.",
     )
     my_parser.add_argument(
+        "--TXN",
+        action="store_true",
+        default=0,
+        dest="txn",
+        help="Fetches new press releases from Texas Instruments Incorporated",
+    )
+    my_parser.add_argument(
         "--UL",
         action="store_true",
         default=0,

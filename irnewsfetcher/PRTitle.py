@@ -44,7 +44,12 @@ class PRTitle(object):
 
             if self.ticker == "tsla":
                 title = title.find(pagedata_tag_two)
-            elif self.ticker == "nvda" or self.ticker == "fb" or self.ticker == "ilmn":
+            elif (
+                self.ticker == "nvda"
+                or self.ticker == "fb"
+                or self.ticker == "ilmn"
+                or self.ticker == "txn"
+            ):
                 title = title.find("a")
 
             if self.ticker == "jnj":

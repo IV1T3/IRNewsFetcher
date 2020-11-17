@@ -6,6 +6,8 @@ Please open a new branch for each company you contribute.
 - irnewsfetcher/argparser.py
   - Add the company as an argument to the argparser.
 - irnewsfetcher/pagedata.py
+  - create a new dictionary using the companies name as variable
+  - "ticker": enter the companies ticker symbol in lowercase letters
   - "rss": Set the boolean, whether you receive information through an RSS or not. However, RSS is currently not supported. Currently, this has to be always *False*.
   - "company_name": Add the full company name to be displayed.
   - "url_press": Add the main URL of the press releases.
@@ -21,4 +23,10 @@ Please open a new branch for each company you contribute.
   - Add the ticker symbol and the respective *pagedata* variable to the *company_dict* dictionary.
 - README.md: Add the company to the supported companies table.
 
-In case you experience some bugs, you would probably have to fix these in *irnewsfetcher/Company.py*.
+After having done these steps, it is common that there are still some adjustments to make in either *irnewsfetcher/PRTitle.py* or *irnewsfetcher/PRDescription.py*
+
+## Style Guidelines
+
+- Write code in snake case (e.g. *this_is_a_variable*).
+- Class names are to be written in camel case with a leading uppercase character.
+
