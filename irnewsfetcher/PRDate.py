@@ -5,6 +5,8 @@ import time
 from datetime import datetime
 from typing import Tuple
 
+from CustomExceptions import InvalidPRDateException
+
 
 class PRDate(object):
     def __init__(self, company_data, press_release) -> None:
@@ -18,7 +20,7 @@ class PRDate(object):
 
         # TODO: If no timestamp, PressRelease object can not be build
         new_date = ""
-        timestamp = time.time()
+        timestamp = None
 
         if not press_release.find("th"):
             data_press_release_date = self.company_data["press_release_date"]
@@ -66,7 +68,9 @@ class PRDate(object):
             timestamp = datetime.timestamp(date)
             new_date = datetime.fromtimestamp(timestamp).strftime("%A, %B %d, %Y")
 
-        return new_date, timestamp
+            return new_date, timestamp
+        else:
+            raise InvalidPRDateException(press_release)
 
     def get_date_and_timestamp(self) -> Tuple[str, datetime.timestamp]:
         return self.date, self.timestamp

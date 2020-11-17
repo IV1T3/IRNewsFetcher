@@ -1,18 +1,18 @@
-from datetime import date
 import bs4
+from CustomExceptions import InvalidPRException
 
-import PageContent
-import PressRelease
+from PageContent import PageContent
+from PressRelease import PressRelease
 
 
 class Company(object):
     def __init__(self, ticker: str, company_data: dict) -> None:
         self.ticker = ticker
         self.company_data = company_data
-        self.page_content = PageContent.PageContent(ticker, company_data)
-        self.full_press_releases = self.parse_all_press_releases()
+        self.page_content = PageContent(ticker, company_data)
+        self.full_press_releases = self.__parse_all_press_releases()
 
-    def parse_all_press_releases(self) -> bs4.BeautifulSoup:
+    def __parse_all_press_releases(self) -> bs4.BeautifulSoup:
         page_content = self.page_content.get_page_content()
 
         data_press_releases = self.company_data["press_releases"]
@@ -34,12 +34,13 @@ class Company(object):
     def get_structured_press_releases(self) -> list:
         structured_press_releases = []
         for press_release in self.full_press_releases:
-            press_release_object = PressRelease.PressRelease(
-                self.company_data, press_release
-            )
-            structured_press_release = (
-                press_release_object.get_structured_press_release()
-            )
-            structured_press_releases.append(structured_press_release)
+            try:
+                press_release_object = PressRelease(self.company_data, press_release)
+                structured_press_release = (
+                    press_release_object.get_structured_press_release()
+                )
+                structured_press_releases.append(structured_press_release)
+            except InvalidPRException:
+                pass
 
         return structured_press_releases
