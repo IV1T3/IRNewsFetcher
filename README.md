@@ -14,7 +14,7 @@ $ source venv/bin/activate
 $ pip3 install -r requirements.txt
 ```
 
-## How to use?
+## How to use
 
 Currently, these companies are added to *IRNewsFetcher*:
 
